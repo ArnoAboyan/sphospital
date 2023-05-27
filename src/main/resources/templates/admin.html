@@ -1,0 +1,398 @@
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body style=" margin-bottom: 170px; background-repeat: no-repeat; background-attachment: fixed; background-image: url('https://phonoteka.org/uploads/posts/2022-01/1643186349_1-phonoteka-org-p-svetlii-belii-fon-1.jpg');">
+<header>
+
+    <nav class="navbar navbar-expand-lg " style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand">Hospital</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{admin_jsp.Doctors}"></a>
+
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li>
+                                <a class="dropdown-item" href="doctors" th:text="#{admin_jsp.Doctors}"></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="patients" th:text="#{admin_jsp.Patients}"></a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="appointments" th:text="#{admin_jsp.Appointments}"></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                        data-bs-target="#addDoctorModal" th:text="#{admin_jsp.doctorAddDoctor}">
+                </button>
+<!--                <%&#45;&#45;                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"&#45;&#45;%>-->
+<!--                <%&#45;&#45;                        data-bs-target="#addNurseModal">&#45;&#45;%>-->
+<!--                <%&#45;&#45;                    add nurse&#45;&#45;%>-->
+<!--                <%&#45;&#45;                </button>&#45;&#45;%>-->
+            </div>
+            <form action="controller" method="get">
+                <input type="hidden" name="command" value="logout">
+                <button type="submit" class="btn btn-outline-secondary" style="background-color: #e3f2fd;" th:text="#{admin_jsp.logout}"></button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<div>
+    <nav>
+        <ul class="pagination  pagination-sm justify-content-center ">
+            <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number - 1})}">
+                    Попередня</a>
+            </li>
+            <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(page=0)}">
+                    <<<</a>
+            </li>
+            <li th:each="pageNumber : ${#numbers.sequence(0, doctors.getTotalPages()-1)}"
+                th:classappend="${doctors.number == pageNumber ? 'active' : ''}" class="page-item">
+                <a class="page-link"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${pageNumber})}"
+                   th:text="${pageNumber + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.getTotalPages()-1})}">>>></a>
+            </li>
+            <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number + 1})}">Наступна</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+
+
+<section class="adminpage-doctor flex">
+    <div class="container-sm">
+        <div class="row">
+            <div class="col-md-12 ">
+                <table class="table table-sm ">
+                    <thead>
+                    <tr>
+                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
+                                           style="background-color: #e3f2fd;"
+                                           href="controller?command=adminpagecommand&page=1&sort=doctor_name" th:text="#{admin_jsp.Name}"></a>
+                        </th>
+                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
+                                           style="background-color: #e3f2fd;"
+                                           href="controller?command=adminpagecommand&page=1&sort=doctor_surname" th:text="#{admin_jsp.Surname}"></a>
+                        </th>
+                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
+                                           style="background-color: #e3f2fd;"
+                                           href="controller?command=adminpagecommand&page=1&sort=login" th:text="#{admin_jsp.doctorLogin}"></a>
+                        </th>
+                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
+                                           style="background-color: #e3f2fd;"
+                                           href="controller?command=adminpagecommand&page=1&sort=password" th:text="#{admin_jsp.doctorPassword}"></a>
+                        </th>
+                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
+                                           style="background-color: #e3f2fd;"
+                                           href="controller?command=adminpagecommand&page=1&sort=category_id" th:text="#{admin_jsp.doctorCategory}"></a>
+                        </th>
+                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
+                                           style="background-color: #e3f2fd;"
+                                           href="controller?command=adminpagecommand&page=1&sort=role_id" th:text="#{admin_jsp.doctorRole}"></a>
+                        </th>
+                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
+                                           style="background-color: #e3f2fd;"
+                                           href="controller?command=adminpagecommand&page=1&sort=countofpatients" th:text="#{admin_jsp.PatientsArrowDown}"></a>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="doctor : ${doctors}">
+                            <td th:text="${doctor.doctorName}"></td>
+                            <td th:text="${doctor.doctorSurname}">${doctor.doctorSurname}</td>
+                            <td th:text="${doctor.login}">${doctor.login}</td>
+                            <td>*******</td>
+                            <td th:text="${doctor.category}">${doctor.category}</td>
+                            <td th:text="${doctor.role}">${doctor.role}</td>
+                            <td th:text="${doctor.countOfPatients}">${doctor.countOfPatients}</td>
+                            <td>
+<!--                                MODAL DELETE-->
+                                <button type="button" class="btn btn-danger btn-sm " data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#deleteDoctorModal' + ${doctor.doctorId}"
+                                >X
+                                </button>
+                                <div class="modal " th:id="'deleteDoctorModal' + ${doctor.doctorId}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title " th:text="#{admin_jsp.doctorDeleteDoctor}"></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="h4 pb-2 mb-4 text-danger border-bottom border-danger" th:text="#{admin_jsp.Attention!}">
+                                                </div>
+
+                                                <a class="text-secondary text-decoration-none "><p th:text="#{admin_jsp.Delete}"></p>
+                                                    <h4 th:text="${doctor.doctorName + ' ' + doctor.doctorSurname +  ' ' + '?'}" ></h4></a>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{admin_jsp.Close}"></button>
+                                                <form th:action="@{/doctors/deletedoctor}" th:method="GET">
+                                                    <input type="hidden" th:name="doctorId" th:value="${doctor.doctorId}">
+                                                    <button type="submit" class="btn btn-primary" th:text="#{admin_jsp.Yes}"></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <td>
+<!--                                 MODAL UPDATE-->
+                                <button type="button" class="btn btn-outline-info btn-sm " data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#updateDoctorModal' + ${doctor.doctorId}" th:text="#{admin_jsp.Update}"></button>
+                                <div class="modal " th:id="'updateDoctorModal' + ${doctor.doctorId}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title " th:text="#{admin_jsp.UpdateDoctor}"></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div  >
+                                            <div class="modal-body">
+                                                <form th:action="@{/doctors/edit/{pagenumber}(pagenumber=${doctors.getNumber()})}" th:method="POST" >
+                                                    <div class="mb-3">
+                                                        <label for="changeInputName" th:text="#{admin_jsp.doctorWritename}"></label>
+
+                                                        <input type="hidden" name="doctorId" class="form-control" th:value="${doctor.doctorId}">
+                                                        <input type="text" name="doctorName" class="form-control"
+                                                               id="changeInputName" aria-describedby="nameHelp"
+                                                               required minlength="3" maxlength="20"
+                                                               title="min 3 - max 20 letters"
+                                                               pattern="[-a-zA-Zа-яА-ЯЁёЇїІіҐґ]{2,20}"
+                                                               th:value="${doctor.doctorName}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="changeInputSurname" th:text="#{admin_jsp.doctorWritesurname}"></label>
+                                                        <input type="test" class="form-control" id="changeInputSurname"
+                                                               name="doctorSurname" required minlength="3"
+                                                               maxlength="20" pattern="[-a-zA-Zа-яА-ЯЁёЇїІіҐґ]{2,20}"
+                                                               title="min 3 - max 20 letters"
+                                                               th:value="${doctor.doctorSurname}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="changeInputEmail1" th:text="#{admin_jsp.doctorWritelogin}"></label>
+                                                        <input type="text" name="login" class="form-control"
+                                                               id="changeInputEmail1"
+                                                               aria-describedby="emailHelp" required minlength="4"
+                                                               maxlength="20"
+                                                               pattern="[A-Za-z]{3,20}"
+                                                               title="min 3 - max 20 english letters"
+                                                               th:value="${doctor.login}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="changeInputPassword1" th:text="#{admin_jsp.doctorWritepassword}"></label>
+                                                        <input type="text" class="form-control" id="changeInputPassword1"
+                                                               name="password" required
+                                                               minlength="4" maxlength="18"
+                                                               pattern="[a-zA-Z0-9]{3,20}"
+                                                               title="min 3 - max 20 english letters and numbers"
+                                                               th:value="${doctor.password}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="changeselectrole" th:text="#{admin_jsp.doctorSelectrole}"></label>
+                                                        <select class="form-select" name="role"
+                                                                id="changeselectrole"
+                                                                required>
+                                                            <option selected th:value="${doctor.role.ordinal()}"><p th:text="${doctor.role}"></option>
+                                                            <option value="1">doctor</option>
+                                                            <option value="2">nurse</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="changeselectCategory" th:text="#{admin_jsp.doctorSelectcategory}"></label>
+                                                        <select class="form-select" name="category"
+                                                                id="changeselectCategory"
+                                                                required>
+                                                            <option selected th:value="${doctor.category.ordinal()}"><p th:text="${doctor.category}"></p></option>
+                                                            <option value="0">onkologist</option>
+                                                            <option value="1">traumatologist</option>
+                                                            <option value="2">ophthalmologist</option>
+                                                            <option value="3">dentist</option>
+                                                            <option value="4">psychiatrist</option>
+                                                            <option value="5">therapist</option>
+                                                            <option value="6">pediatrician</option>
+                                                            <option value="7">NURSE</option>
+                                                        </select>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <td>
+                                <form action="controller" method="get">
+                                    <input type="hidden" name="command"  value="patientlistbydoctor">
+                                    <input type="hidden" name="patientsfordoctorid" th:value="${doctor.doctorId}">
+                                    <input type="hidden" name="page" value=1>
+                                    <button type="submit" class="btn btn-outline-primary" th:text="#{admin_jsp.doctorPatients}"></button>
+                                </form>
+                            </td>
+                            </td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- Modal ADD DOCTOR -->
+<div class="modal fade" id="addDoctorModal" tabindex="-1" aria-labelledby="addDoctorModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel" th:text="#{admin_jsp.doctorAddDoctor}"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:method="POST" th:action="@{/doctors/addnewdoctor}">
+                    <div class="mb-3">
+
+                        <input type="text" name="doctorName" class="form-control" id="InputName" aria-describedby="nameHelp"
+                               required minlength="3" maxlength="20"
+                               title="Three or more letters"
+                               pattern="[-a-zA-Zа-яА-ЯЁёЇїІіҐґ]{2,20}"
+                               placeholder="#{admin_jsp.doctorWritename}" th:attr="placeholder=#{admin_jsp.doctorWritename}"
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <input type="test" class="form-control" id="InputSurname" name="doctorSurname"  required minlength="3"
+                               maxlength="20" pattern="[-a-zA-Zа-яА-ЯЁёЇїІіҐґ]{2,20}" title="Three or more letters"
+                        placeholder="#{admin_jsp.doctorWritesurname}" th:attr="placeholder=#{admin_jsp.doctorWritesurname}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="login" name="login" class="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" required minlength="4" maxlength="20"
+                               pattern="[A-Za-z]{3,20}" title="Three or more english letters"
+                        placeholder="#{admin_jsp.doctorWritelogin}" th:attr="placeholder=#{admin_jsp.doctorWritelogin}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" id="exampleInputPassword1" name="password" required
+                               minlength="4" maxlength="18"
+                               pattern="[a-zA-Z0-9]{3,20}" title="Three or more english letters and numbers"
+                        placeholder="#{admin_jsp.doctorWritepassword}" th:attr="placeholder=#{admin_jsp.doctorWritepassword}">
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="role"
+                                id="selectrole"
+                                required>
+                            <option selected th:text="#{admin_jsp.doctorSelectrole}"></option>
+                            <option value="1">doctor</option>
+                            <option value="2">nurse</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="category" id="selectCategory"
+                                aria-label="Default select example" required>
+                            <option selected th:text="#{admin_jsp.doctorSelectcategory}"></option>
+                            <option value="0">onkologist</option>
+                            <option value="1">traumatologist</option>
+                            <option value="2">ophthalmologist</option>
+                            <option value="3">dentist</option>
+                            <option value="4">psychiatrist</option>
+                            <option value="5">therapist</option>
+                            <option value="6">pediatrician</option>
+                            <option value="7">NURSE</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary " th:text="#{admin_jsp.Add}"></button>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--PAGINATION-->
+<div>
+    <nav>
+        <ul class="pagination  pagination-sm justify-content-center ">
+            <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number - 1})}">
+                    Попередня</a>
+            </li>
+            <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(page=0)}">
+                    <<<</a>
+            </li>
+            <li th:each="pageNumber : ${#numbers.sequence(0, doctors.getTotalPages()-1)}"
+                th:classappend="${doctors.number == pageNumber ? 'active' : ''}" class="page-item">
+                <a class="page-link"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${pageNumber})}"
+                   th:text="${pageNumber + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.getTotalPages()-1})}">>>></a>
+            </li>
+            <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number + 1})}">Наступна</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<!-- -FOOTER- -->
+<footer class="pt-1 my-md-1 pt-md-1 border-top abs "
+        style="position: fixed;
+        bottom: -10px;
+        height: 70px;
+        background: #e3f2fd;
+        width: 100%;
+        left: 0;">
+<!--    <div class="container text-center text-md-left">-->
+<!--        <div class="d-flex">-->
+<!--            <div class="p-2 flex-grow-1">Make by Arno</div>-->
+<!--            <div class="p-2">099 111 22 33</div>-->
+<!--            <div class="p-2"><mylib:languages></mylib:languages></div>-->
+<!--        </div>-->
+<!--    </div>-->
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
