@@ -8,7 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
-    @Query ("select a from Appointment a where a =:appointment_id")
-    Page <Appointment> getAllAppiontments (Pageable pageable);
-
 }

@@ -66,7 +66,7 @@
 //            req.setAttribute("page", page);
 //            req.setAttribute("countPage", countPage);
 //            logger.info("req.setAttributes => Correct");
-//            return "appointmentlist.jsp";
+//            return "appointmentlist.html";
 //        }
 //    }
 //
@@ -88,7 +88,7 @@
 //            req.setAttribute("countPage", countPage);
 //            req.setAttribute("sort", sort);
 //            logger.info("req.setAttributes => Correct");
-//            return "appointmentlist.jsp";
+//            return "appointmentlist.html";
 //        }
 //    }
 //

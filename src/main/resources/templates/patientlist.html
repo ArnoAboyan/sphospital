@@ -215,11 +215,13 @@
                                 </div>
 
 
-<!--                                    <%&#45;&#45;    ADD APPOINTMENT MODAL&#45;&#45;%>-->
+                          <!--ADD APPOINTMENT MODAL-->
                                 <button type="button" class="btn btn-outline-primary btn-sm " data-bs-toggle="modal"
-                                        data-bs-target="#addAppointment${patient.patientId}" th:text="#{admin_jsp.patientlistAppointment}">
+                                        th:attr="data-bs-target='#addAppointment' + ${patient.patientId}"
+                                        th:text="#{admin_jsp.patientlistAppointment}">
                                 </button>
-                                <div class="modal" id="addAppointment${patient.patientId}" tabindex="-1">
+                                <div class="modal" th:id="'addAppointment' + ${patient.patientId}"
+                                     tabindex="-1">
                                     <div class="modal-dialog ">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -228,28 +230,22 @@
                                                         aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="controller" method="post">
+                                                <form th:action="@{/appointments/newappointment}" th:method="GET">
                                                     <div>
-                                                        <input type="hidden" name="command"
-                                                               value="addappointmentcommand">
-                                                        <input type="hidden" name="patientid"
-                                                               value=${patient.patientId}>
+                                                        <input type="hidden" name="patientId"
+                                                              th:value="${patient.patientId}">
+                                                        <h4 th:text="${patient.patientName + ' ' + patient.patientSurname + ' ' + patient.patientPhone}"></h4>
                                                         <label for="selectDoctor"
                                                                class="form-label text-black" th:text="#{admin_jsp.patientlistselectDoctor}"></label>
-                                                        <select class="form-select" name="doctor" id="selectDoctor"
+                                                        <select class="form-select" name="doctorId" id="selectDoctor"
                                                                 aria-label="Default select example">
-                                                            <c:forEach var="doctor" items="${allDoctors}">
-                                                                <option value=${doctor.doctorId}>
-                                                                        ${doctor.doctorName} ${doctor.doctorSurname}
-                                                                    | ${doctor.category}
-                                                                </option>
-                                                            </c:forEach>
+                                                            <option th:each="doctor : ${doctors}" th:value="${doctor.doctorId}" th:text="${doctor.doctorName + ' ' + doctor.doctorSurname + ' | ' + doctor.category}"></option>
                                                         </select>
                                                     </div>
                                                     <div>
                                                         <label th:text="#{admin_jsp.patientlistEnterappointmentdata}">
                                                         </label>
-                                                        <input type="datetime-local" name="appointmentdata" required>
+                                                        <input type="datetime-local" name="appointmentData" required>
 
                                                     </div>
                                                     <div class="modal-footer">

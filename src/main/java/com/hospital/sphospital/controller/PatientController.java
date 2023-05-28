@@ -4,10 +4,7 @@ import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.PatientRepository;
-import com.hospital.sphospital.service.AddPatientService;
-import com.hospital.sphospital.service.DeletePatientService;
-import com.hospital.sphospital.service.PatientListService;
-import com.hospital.sphospital.service.UpdatePatientService;
+import com.hospital.sphospital.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
@@ -29,6 +26,9 @@ public class PatientController {
 
         @Autowired
     PatientListService patientListService;
+
+        @Autowired
+        AdminPageService adminPageService;
 
         @Autowired
     DeletePatientService deletePatientService;
@@ -57,6 +57,7 @@ public class PatientController {
     @GetMapping
     private String getAllPatients(Model model, @PageableDefault(size = 5) Pageable pageable) throws CommandException {
         model.addAttribute("patients", patientListService.getAllPatients(pageable));
+        model.addAttribute("doctors", adminPageService.getAllDoctors(pageable));
         return "patientlist";
     }
 

@@ -2,6 +2,7 @@ package com.hospital.sphospital.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -17,24 +18,36 @@ import java.time.LocalDateTime;
 public class Appointment {
     @Id
     @Column(name = "appointment_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer appointmentId;
-    @Column(name = "doctor_id")
-    private Integer doctorId;
-    @Column(name = "patient_id")
-    private Integer patientId;
-    @Column(name = "appointments_data")
-    private LocalDateTime appointmentData;
-    @Transient
-    private String appointmentDoctorName;
-    @Transient
-    private String appointmentDoctorSurname;
-    @Transient
-    private Category appointmentDoctorCategory;
-    @Transient
-    private String appointmentPatientName;
-    @Transient
-    private String appointmentPatientSurname;
 
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctorId;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patientId;
+    @Column(name = "appointments_data")
+    @Future
+    private LocalDateTime appointmentData;
+
+
+    public Doctor getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Doctor doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public Patient getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Patient patientId) {
+        this.patientId = patientId;
+    }
 
     public Integer getAppointmentId() {
         return appointmentId;
@@ -44,22 +57,6 @@ public class Appointment {
         this.appointmentId = appointmentId;
     }
 
-    public int getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Integer doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public Integer getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Integer patientId) {
-        this.patientId = patientId;
-    }
-
     public LocalDateTime getAppointmentData() {
         return appointmentData;
     }
@@ -67,6 +64,51 @@ public class Appointment {
     public void setAppointmentData(LocalDateTime appointmentData) {
         this.appointmentData = appointmentData;
     }
+
+
+    //    @Transient
+//    private String appointmentDoctorName;
+//    @Transient
+//    private String appointmentDoctorSurname;
+//    @Transient
+//    private Category appointmentDoctorCategory;
+//    @Transient
+//    private String appointmentPatientName;
+//    @Transient
+//    private String appointmentPatientSurname;
+
+
+//    public Integer getAppointmentId() {
+//        return appointmentId;
+//    }
+//
+//    public void setAppointmentId(Integer appointmentId) {
+//        this.appointmentId = appointmentId;
+//    }
+//
+//    public int getDoctorId() {
+//        return doctor_id;
+//    }
+//
+//    public void setDoctorId(Integer doctorId) {
+//        this.doctor_id = doctorId;
+//    }
+//
+//    public Integer getPatientId() {
+//        return patientId;
+//    }
+//
+//    public void setPatientId(Integer patientId) {
+//        this.patientId = patientId;
+//    }
+//
+//    public LocalDateTime getAppointmentData() {
+//        return appointmentData;
+//    }
+//
+//    public void setAppointmentData(LocalDateTime appointmentData) {
+//        this.appointmentData = appointmentData;
+//    }
 
 //    public String getAppointmentDoctorName() throws DAOException {
 //        Doctor doctor;
@@ -112,24 +154,24 @@ public class Appointment {
 //        return appointmentDoctorSurname =  patient.getPatientSurname();
 //    }
 
-
-    public void setAppointmentDoctorName(String appointmentDoctorName) {
-        this.appointmentDoctorName = appointmentDoctorName;
-    }
-
-    public void setAppointmentDoctorSurname(String appointmentDoctorSurname) {
-        this.appointmentDoctorSurname = appointmentDoctorSurname;
-    }
-
-    public void setAppointmentDoctorCategory(Category appointmentDoctorCategory) {
-        this.appointmentDoctorCategory = appointmentDoctorCategory;
-    }
-
-    public void setAppointmentPatientName(String appointmentPatientName) {
-        this.appointmentPatientName = appointmentPatientName;
-    }
-
-    public void setAppointmentPatientSurname(String appointmentPatientSurname) {
-        this.appointmentPatientSurname = appointmentPatientSurname;
-    }
+//
+//    public void setAppointmentDoctorName(String appointmentDoctorName) {
+//        this.appointmentDoctorName = appointmentDoctorName;
+//    }
+//
+//    public void setAppointmentDoctorSurname(String appointmentDoctorSurname) {
+//        this.appointmentDoctorSurname = appointmentDoctorSurname;
+//    }
+//
+//    public void setAppointmentDoctorCategory(Category appointmentDoctorCategory) {
+//        this.appointmentDoctorCategory = appointmentDoctorCategory;
+//    }
+//
+//    public void setAppointmentPatientName(String appointmentPatientName) {
+//        this.appointmentPatientName = appointmentPatientName;
+//    }
+//
+//    public void setAppointmentPatientSurname(String appointmentPatientSurname) {
+//        this.appointmentPatientSurname = appointmentPatientSurname;
+//    }
 }
