@@ -345,7 +345,7 @@
     <nav>
         <ul class="pagination  pagination-sm justify-content-center ">
             <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
-                <a class="page-link"
+                <a class="page-link "
                    th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number - 1})}">
                     Попередня</a>
             </li>
