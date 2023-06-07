@@ -59,25 +59,25 @@
         <ul class="pagination  pagination-sm justify-content-center ">
             <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number - 1})}">
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${doctors.number - 1})}">
                     Попередня</a>
             </li>
             <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=0)}">
+                   th:href="@{${#ctx.springRequestContext.requestUri}( sort=${sortName}, page=0)}">
                     <<<</a>
             </li>
             <li th:each="pageNumber : ${#numbers.sequence(0, doctors.getTotalPages()-1)}"
                 th:classappend="${doctors.number == pageNumber ? 'active' : ''}" class="page-item">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${pageNumber})}"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${pageNumber})}"
                    th:text="${pageNumber + 1}">1</a>
             </li>
             <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.getTotalPages()-1})}">>>></a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${doctors.getTotalPages()-1})}">>>></a>
             </li>
             <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number + 1})}">Наступна</a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${doctors.number + 1})}">Наступна</a>
             </li>
         </ul>
     </nav>
@@ -96,31 +96,31 @@
                     <tr>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=adminpagecommand&page=1&sort=doctor_name" th:text="#{admin_jsp.Name}"></a>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='doctorName', page=${doctors.number})}" th:text="#{admin_jsp.Name}"></a>
                         </th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=adminpagecommand&page=1&sort=doctor_surname" th:text="#{admin_jsp.Surname}"></a>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='doctorSurname', page=${doctors.number})}" th:text="#{admin_jsp.Surname}"></a>
                         </th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=adminpagecommand&page=1&sort=login" th:text="#{admin_jsp.doctorLogin}"></a>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='login', page=${doctors.number})}" th:text="#{admin_jsp.doctorLogin}"></a>
                         </th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=adminpagecommand&page=1&sort=password" th:text="#{admin_jsp.doctorPassword}"></a>
+                                           th:text="#{admin_jsp.doctorPassword}"></a>
                         </th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=adminpagecommand&page=1&sort=category_id" th:text="#{admin_jsp.doctorCategory}"></a>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='category', page=${doctors.number})}" th:text="#{admin_jsp.doctorCategory}"></a>
                         </th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=adminpagecommand&page=1&sort=role_id" th:text="#{admin_jsp.doctorRole}"></a>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='role', page=${doctors.number})}" th:text="#{admin_jsp.doctorRole}"></a>
                         </th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=adminpagecommand&page=1&sort=countofpatients" th:text="#{admin_jsp.PatientsArrowDown}"></a>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='countOfPatients', page=${doctors.number})}" th:text="#{admin_jsp.PatientsArrowDown}"></a>
                         </th>
                     </tr>
                     </thead>
@@ -345,26 +345,26 @@
     <nav>
         <ul class="pagination  pagination-sm justify-content-center ">
             <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
-                <a class="page-link "
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number - 1})}">
+                <a class="page-link"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${doctors.number - 1})}">
                     Попередня</a>
             </li>
             <li class="page-item" th:classappend="${doctors.isFirst() ? 'disabled' : ''}">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=0)}">
+                   th:href="@{${#ctx.springRequestContext.requestUri}( sort=${sortName}, page=0)}">
                     <<<</a>
             </li>
             <li th:each="pageNumber : ${#numbers.sequence(0, doctors.getTotalPages()-1)}"
                 th:classappend="${doctors.number == pageNumber ? 'active' : ''}" class="page-item">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${pageNumber})}"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${pageNumber})}"
                    th:text="${pageNumber + 1}">1</a>
             </li>
             <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.getTotalPages()-1})}">>>></a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${doctors.getTotalPages()-1})}">>>></a>
             </li>
             <li class="page-item" th:classappend="${doctors.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${doctors.number + 1})}">Наступна</a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${doctors.number + 1})}">Наступна</a>
             </li>
         </ul>
     </nav>

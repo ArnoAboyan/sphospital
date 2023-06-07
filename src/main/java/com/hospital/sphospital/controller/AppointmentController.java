@@ -29,29 +29,29 @@ public class AppointmentController {
 
 
 
-//        @GetMapping("/newappointment/{pagenumber}")
-//        public String addAppointment (@Valid @RequestParam("doctorId") int doctorId,
-//                                      @RequestParam("patientId") int patientId,
-//                                      @RequestParam("appointmentData") LocalDateTime appointmentData,
-//                                      @PathVariable("pagenumber") int pageNumber,
-//                                      BindingResult bindingResult,
-//                                      Model model){
-//            if (bindingResult.hasErrors()) {
-//            model.addAttribute("bindingResult", bindingResult);
-//            return "error";
-//        }
-//            appointmentService.addNewAppointment(doctorId, patientId, appointmentData);
-//            return "redirect:/patients?page=" + (pageNumber);
-//        }
 
 
-    @GetMapping("/newappointment/{pagenumber}")
+
+    @PostMapping("/newappointment/{pagenumber}")
     public String addAppointment(@Valid @ModelAttribute("appointments") Appointment appointment,
                                  @PathVariable("pagenumber") int pageNumber,
                                  BindingResult bindingResult,
                                  Model model) {
 
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bindingResult", bindingResult);
+            return "error";
+        }
         appointmentRepository.save(appointment);
         return "redirect:/patients?page=" + (pageNumber);
     }
+
+
+//    @PostMapping("/newappointment")
+//    public String addAppointment(@Valid @ModelAttribute("appointments") Appointment appointment)
+//    {
+//        System.out.println(appointment.getAppointmentId());
+//        appointmentRepository.save(appointment);
+//        return "redirect:/patients";
+//    }
 }

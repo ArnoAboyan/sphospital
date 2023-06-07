@@ -12,11 +12,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Controller
@@ -60,7 +63,19 @@ public class AdminController {
 
 
     @GetMapping()
-    private String getAllDoctors(Model model, @PageableDefault(size = 5) Pageable pageable) throws CommandException {
+    private String getAllDoctors(Model model, @PageableDefault(size = 5)  Pageable pageable) throws CommandException {
+
+        System.out.println(pageable.getSort());
+
+        Sort sort = pageable.getSort();
+
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            String sortName = order.getProperty();
+            model.addAttribute("sortName", sortName);
+            System.out.println(sortName);
+        }
+
         model.addAttribute("doctors", adminPageService.getAllDoctors(pageable));
         return "admin";
     }
