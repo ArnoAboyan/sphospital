@@ -55,25 +55,25 @@
         <ul class="pagination  pagination-sm justify-content-center ">
             <li class="page-item" th:classappend="${patients.isFirst() ? 'disabled' : ''}">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${patients.number - 1})}">
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${patients.number - 1})}">
                     Попередня</a>
             </li>
             <li class="page-item" th:classappend="${patients.isFirst() ? 'disabled' : ''}">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=0)}">
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=0)}">
                     <<<</a>
             </li>
             <li th:each="pageNumber : ${#numbers.sequence(0, patients.getTotalPages()-1)}"
                 th:classappend="${patients.number == pageNumber ? 'active' : ''}" class="page-item">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${pageNumber})}"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${pageNumber})}"
                    th:text="${pageNumber + 1}">1</a>
             </li>
             <li class="page-item" th:classappend="${patients.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${patients.getTotalPages()-1})}">>>></a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${patients.getTotalPages()-1})}">>>></a>
             </li>
             <li class="page-item" th:classappend="${patients.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${patients.number + 1})}">Наступна</a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${patients.number + 1})}">Наступна</a>
             </li>
         </ul>
     </nav>
@@ -90,19 +90,19 @@
                     <tr>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=patientlistcommand&page=1&sort=patient_name" th:text="#{admin_jsp.Name}" ></a></th>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientName', page=${patients.number})}" th:text="#{admin_jsp.Name}" ></a></th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=patientlistcommand&page=1&sort=patient_surname" th:text="#{admin_jsp.Surname}"></a></th>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientSurname', page=${patients.number})}" th:text="#{admin_jsp.Surname}"></a></th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=patientlistcommand&page=1&sort=patient_date_of_birth" th:text="#{admin_jsp.DateOfBirth}"></a></th>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientDateOfBirth', page=${patients.number})}" th:text="#{admin_jsp.DateOfBirth}"></a></th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=patientlistcommand&page=1&sort=phone" th:text="#{admin_jsp.Phone}"></a></th>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientPhone', page=${patients.number})}" th:text="#{admin_jsp.Phone}"></a></th>
                         <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
                                            style="background-color: #e3f2fd;"
-                                           href="controller?command=patientlistcommand&page=1&sort=gender" th:text="#{admin_jsp.Gender}"></a></th>
+                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientGender', page=${patients.number})}" th:text="#{admin_jsp.Gender}"></a></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -230,7 +230,7 @@
                                                         aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form th:action="@{/appointments/newappointment/{pagenumber}(pagenumber=${patients.getNumber()})}" th:method="POST">
+                                                <form   th:action="@{/appointments/newappointment/{pagenumber}(pagenumber=${patients.getNumber()})}" th:method="POST">
                                                     <div>
                                                         <input type="hidden" name="patientId"
                                                               th:value="${patient.patientId}">
@@ -340,25 +340,25 @@
         <ul class="pagination  pagination-sm justify-content-center ">
             <li class="page-item" th:classappend="${patients.isFirst() ? 'disabled' : ''}">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${patients.number - 1})}">
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${patients.number - 1})}">
                     Попередня</a>
             </li>
             <li class="page-item" th:classappend="${patients.isFirst() ? 'disabled' : ''}">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=0)}">
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=0)}">
                     <<<</a>
             </li>
             <li th:each="pageNumber : ${#numbers.sequence(0, patients.getTotalPages()-1)}"
                 th:classappend="${patients.number == pageNumber ? 'active' : ''}" class="page-item">
                 <a class="page-link"
-                   th:href="@{${#ctx.springRequestContext.requestUri}(page=${pageNumber})}"
+                   th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${pageNumber})}"
                    th:text="${pageNumber + 1}">1</a>
             </li>
             <li class="page-item" th:classappend="${patients.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${patients.getTotalPages()-1})}">>>></a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${patients.getTotalPages()-1})}">>>></a>
             </li>
             <li class="page-item" th:classappend="${patients.last ? 'disabled' : ''}">
-                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(page=${patients.number + 1})}">Наступна</a>
+                <a class="page-link" th:href="@{${#ctx.springRequestContext.requestUri}(sort=${sortName}, page=${patients.number + 1})}">Наступна</a>
             </li>
         </ul>
     </nav>

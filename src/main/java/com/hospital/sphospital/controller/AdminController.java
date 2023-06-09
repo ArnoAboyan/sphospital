@@ -34,9 +34,7 @@ public class AdminController {
     private DeleteDoctorService deleteDoctorService;
     @Autowired
     private UpdateDoctorService updateDoctorService;
-    @Autowired
-    private HttpServletRequest request;
-    ;
+
 
 //@PostMapping("/addnewdoctor")
 //    private String addNewDoctor (@RequestParam("doctorName") String doctorName,
@@ -65,7 +63,7 @@ public class AdminController {
     @GetMapping()
     private String getAllDoctors(Model model, @PageableDefault(size = 5)  Pageable pageable) throws CommandException {
 
-        System.out.println(pageable.getSort());
+        System.out.println(pageable);
 
         Sort sort = pageable.getSort();
 

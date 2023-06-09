@@ -10,35 +10,38 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/patients")
 public class PatientController {
 
-        @Autowired
+    @Autowired
     AddPatientService addPatientService;
 
-        @Autowired
+    @Autowired
     PatientListService patientListService;
 
-        @Autowired
-        AdminPageService adminPageService;
+    @Autowired
+    AdminPageService adminPageService;
 
-        @Autowired
+    @Autowired
     DeletePatientService deletePatientService;
-@Autowired
+    @Autowired
     UpdatePatientService updatePatientService;
 
 
     @PostMapping("/addnewpatient")
-    private String addNewPatient (@Valid @ModelAttribute("patients") Patient patient, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()){
+    private String addNewPatient(@Valid @ModelAttribute("patients") Patient patient, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
             return "error";
         }
@@ -54,10 +57,28 @@ public class PatientController {
     }
 
 
+
+
+        private List<Doctor> appointmentDoctors() throws CommandException {
+       return adminPageService.getAllDoctorsForAppointments();
+    }
+
     @GetMapping
     private String getAllPatients(Model model, @PageableDefault(size = 5) Pageable pageable) throws CommandException {
+        System.out.println(pageable);
+
+
+        Sort sort = pageable.getSort();
+
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            String sortName = order.getProperty();
+            model.addAttribute("sortName", sortName);
+            System.out.println(sortName);
+        }
+
         model.addAttribute("patients", patientListService.getAllPatients(pageable));
-        model.addAttribute("doctors", adminPageService.getAllDoctors(pageable));
+        model.addAttribute("doctors", appointmentDoctors());
         return "patientlist";
     }
 
