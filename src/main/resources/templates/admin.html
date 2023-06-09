@@ -41,10 +41,8 @@
                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
                         data-bs-target="#addDoctorModal" th:text="#{admin_jsp.doctorAddDoctor}">
                 </button>
-<!--                <%&#45;&#45;                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"&#45;&#45;%>-->
-<!--                <%&#45;&#45;                        data-bs-target="#addNurseModal">&#45;&#45;%>-->
-<!--                <%&#45;&#45;                    add nurse&#45;&#45;%>-->
-<!--                <%&#45;&#45;                </button>&#45;&#45;%>-->
+
+
             </div>
             <form action="controller" method="get">
                 <input type="hidden" name="command" value="logout">
@@ -127,12 +125,12 @@
                     <tbody>
                         <tr th:each="doctor : ${doctors}">
                             <td th:text="${doctor.doctorName}"></td>
-                            <td th:text="${doctor.doctorSurname}">${doctor.doctorSurname}</td>
-                            <td th:text="${doctor.login}">${doctor.login}</td>
+                            <td th:text="${doctor.doctorSurname}"></td>
+                            <td th:text="${doctor.login}"></td>
                             <td>*******</td>
-                            <td th:text="${doctor.category}">${doctor.category}</td>
-                            <td th:text="${doctor.role}">${doctor.role}</td>
-                            <td th:text="${doctor.countOfPatients}">${doctor.countOfPatients}</td>
+                            <td th:text="${doctor.category}"></td>
+                            <td th:text="${doctor.role}"></td>
+                            <td th:text="${doctor.countOfPatients}"></td>
                             <td>
 <!--                                MODAL DELETE-->
                                 <button type="button" class="btn btn-danger btn-sm " data-bs-toggle="modal"
