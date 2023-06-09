@@ -1,18 +1,34 @@
-//package com.hospital.sphospital.services;
-//
-//import DAO.DAOException;
-//import DAO.impl.AppointmentDao;
-//import entitys.Appointment;
-//import entitys.Doctor;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//import org.apache.log4j.Logger;
-//
-//import java.sql.SQLException;
-//import java.util.List;
-//
-//public class AppointmentListCommand implements Command {
-//
+package com.hospital.sphospital.service;
+
+import com.hospital.sphospital.entity.Appointment;
+import com.hospital.sphospital.entity.Doctor;
+import com.hospital.sphospital.exeption.CommandException;
+import com.hospital.sphospital.repositorie.AppointmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class AppointmentListService  {
+
+    @Autowired
+    AppointmentRepository appointmentRepository;
+
+
+    @Transactional
+    public Page<Appointment> getAllAppointments(Pageable pageable) throws CommandException {
+        Page<Appointment> appointments = appointmentRepository.findAll(pageable);
+        if (appointments.getSize() != 5){
+            throw new CommandException("Size is incorrect");
+        }
+        return appointments;
+    }
+}
+
+
+
 //    static final Logger logger = Logger.getLogger(AppointmentListCommand.class);
 //
 //    @Override
