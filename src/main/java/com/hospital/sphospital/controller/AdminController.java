@@ -1,16 +1,15 @@
 package com.hospital.sphospital.controller;
 
 
+import com.hospital.sphospital.entity.Appointment;
 import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.exeption.CommandException;
-import com.hospital.sphospital.service.AddDoctorService;
-import com.hospital.sphospital.service.AdminPageService;
-import com.hospital.sphospital.service.DeleteDoctorService;
-import com.hospital.sphospital.service.UpdateDoctorService;
+import com.hospital.sphospital.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -35,18 +34,8 @@ public class AdminController {
     @Autowired
     private UpdateDoctorService updateDoctorService;
 
-
-//@PostMapping("/addnewdoctor")
-//    private String addNewDoctor (@RequestParam("doctorName") String doctorName,
-//                                 @RequestParam("doctorSurname") String doctorSurname,
-//                                 @RequestParam("login") String login,
-//                                 @RequestParam("password") String password,
-//                                 @RequestParam("category") Integer category,
-//                                 @RequestParam("role") Integer role)
-//                                  throws CommandException{
-//      addDoctorService.addNewDoctor(doctorName,doctorSurname,login,password,category,role);
-//       return "redirect:/doctors/alldoctors";
-//    }
+    @Autowired
+    PatientListByDoctorForAdminService patientListByDoctorForAdminService;
 
 
     @PostMapping("/addnewdoctor")
@@ -97,4 +86,30 @@ public class AdminController {
         updateDoctorService.updateDoctor(doctor);
         return "redirect:/doctors?page=" + (pageNumber);
     }
+
+//    @GetMapping("/patientsByDoctorID")
+//    private String findPatientsByDoctorId(@RequestParam("doctorId") int doctorId,
+//                                          @PageableDefault(size = 5)  Pageable pageable,
+//                                          Model model){
+//
+//        model.addAttribute("appointmentsByDoctorId",  patientListByDoctorForAdminService.findByDoctorId(doctorId, pageable));
+//
+//        return "patientlistbydoctoradmin";
+//    }
+
+
+
+    @GetMapping("/patientsByDoctorID")
+    private String findPatientsByDoctorId(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult,
+                                          @PageableDefault(size = 5)  Pageable pageable,
+                                          Model model){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bindingResult", bindingResult);
+            return "error";
+        }
+        model.addAttribute("appointmentsByDoctorId",  patientListByDoctorForAdminService.findByDoctorId(doctor, pageable));
+
+        return "patientlistbydoctoradmin";
+    }
+
 }

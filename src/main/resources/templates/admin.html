@@ -306,10 +306,8 @@
                                     </div>
                                 </div>
                             <td>
-                                <form action="controller" method="get">
-                                    <input type="hidden" name="command"  value="patientlistbydoctor">
-                                    <input type="hidden" name="patientsfordoctorid" th:value="${doctor.doctorId}">
-                                    <input type="hidden" name="page" value=1>
+                            <form th:action="@{/doctors/patientsByDoctorID}" th:method="GET" >
+                                    <input type="hidden" name="doctorId" class="form-control" th:value="${doctor.doctorId}">
                                     <button type="submit" class="btn btn-outline-primary" th:text="#{admin_jsp.doctorPatients}"></button>
                                 </form>
                             </td>

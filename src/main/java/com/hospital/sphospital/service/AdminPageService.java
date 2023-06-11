@@ -22,7 +22,7 @@ public class AdminPageService {
 
 
 
-@Transactional
+    @Transactional
     public Page<Doctor> getAllDoctors(Pageable pageable) throws CommandException {
         Page<Doctor> doctors = doctorRepository.findAll(pageable);
         if (doctors.getSize() != 5){
