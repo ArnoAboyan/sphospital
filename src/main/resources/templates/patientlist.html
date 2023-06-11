@@ -88,21 +88,71 @@
                 <table class="table table-sm">
                     <thead>
                     <tr>
-                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
-                                           style="background-color: #e3f2fd;"
-                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientName', page=${patients.number})}" th:text="#{admin_jsp.Name}" ></a></th>
-                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
-                                           style="background-color: #e3f2fd;"
-                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientSurname', page=${patients.number})}" th:text="#{admin_jsp.Surname}"></a></th>
-                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
-                                           style="background-color: #e3f2fd;"
-                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientDateOfBirth', page=${patients.number})}" th:text="#{admin_jsp.DateOfBirth}"></a></th>
-                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
-                                           style="background-color: #e3f2fd;"
-                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientPhone', page=${patients.number})}" th:text="#{admin_jsp.Phone}"></a></th>
-                        <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info"
-                                           style="background-color: #e3f2fd;"
-                                           th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientGender', page=${patients.number})}" th:text="#{admin_jsp.Gender}"></a></th>
+                        <th scope="col">
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientName', page=${patients.number})}"
+                               th:text="#{admin_jsp.Name}"
+                               th:if="${patients.sort == null || patients.sort.getOrderFor('patientName') == null || patients.sort.getOrderFor('patientName').isDescending()}"></a>
+
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientName,desc', page=${patients.number})}"
+                               th:text="#{admin_jsp.Name}"
+                               th:if="${patients.sort != null && patients.sort.getOrderFor('patientName') != null && !patients.sort.getOrderFor('patientName').isDescending()}"></a>
+                        </th>
+                        <th scope="col">
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientSurname', page=${patients.number})}"
+                               th:text="#{admin_jsp.Surname}"
+                               th:if="${patients.sort == null || patients.sort.getOrderFor('patientSurname') == null || patients.sort.getOrderFor('patientSurname').isDescending()}"></a>
+
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientSurname,desc', page=${patients.number})}"
+                               th:text="#{admin_jsp.Surname}"
+                               th:if="${patients.sort != null && patients.sort.getOrderFor('patientSurname') != null && !patients.sort.getOrderFor('patientSurname').isDescending()}"></a>
+                        </th>
+                        <th scope="col">
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientDateOfBirth', page=${patients.number})}"
+                               th:text="#{admin_jsp.DateOfBirth}"
+                               th:if="${patients.sort == null || patients.sort.getOrderFor('patientDateOfBirth') == null || patients.sort.getOrderFor('patientDateOfBirth').isDescending()}"></a>
+
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientDateOfBirth,desc', page=${patients.number})}"
+                               th:text="#{admin_jsp.DateOfBirth}"
+                               th:if="${patients.sort != null && patients.sort.getOrderFor('patientDateOfBirth') != null && !patients.sort.getOrderFor('patientDateOfBirth').isDescending()}"></a>
+                        </th>
+                        <th scope="col">
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientPhone', page=${patients.number})}"
+                               th:text="#{admin_jsp.Phone}"
+                               th:if="${patients.sort == null || patients.sort.getOrderFor('patientPhone') == null || patients.sort.getOrderFor('patientPhone').isDescending()}"></a>
+
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientPhone,desc', page=${patients.number})}"
+                               th:text="#{admin_jsp.Phone}"
+                               th:if="${patients.sort != null && patients.sort.getOrderFor('patientPhone') != null && !patients.sort.getOrderFor('patientPhone').isDescending()}"></a>
+                        </th>
+                        <th scope="col">
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientGender', page=${patients.number})}"
+                               th:text="#{admin_jsp.Gender}"
+                               th:if="${patients.sort == null || patients.sort.getOrderFor('patientGender') == null || patients.sort.getOrderFor('patientGender').isDescending()}"></a>
+
+                            <a class="list-group-item list-group-item-action list-group-item-info"
+                               style="background-color: #e3f2fd;"
+                               th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientGender,desc', page=${patients.number})}"
+                               th:text="#{admin_jsp.Gender}"
+                               th:if="${patients.sort != null && patients.sort.getOrderFor('patientGender') != null && !patients.sort.getOrderFor('patientGender').isDescending()}"></a>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
