@@ -23,7 +23,7 @@ public class PatientListByDoctorForAdminService {
 
     @Transactional
     public Page<Appointment> findByDoctorId (Doctor doctor, Pageable pageable){
-
+        System.out.println(appointmentRepository.findByDoctorId(doctor, pageable));
         return appointmentRepository.findByDoctorId(doctor, pageable);
     }
 

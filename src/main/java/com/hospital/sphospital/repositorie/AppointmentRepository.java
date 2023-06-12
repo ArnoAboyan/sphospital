@@ -13,9 +13,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
-    @Query("SELECT a FROM Appointment a WHERE a.doctorId = :doctorId")
+    @Query("SELECT a FROM Appointment a WHERE a.doctorId = :doctorId GROUP BY a.appointmentId")
     Page<Appointment> findByDoctorId(@Param("doctorId") Doctor doctor, Pageable pageable);
 
+
+    int countByDoctorId(Doctor doctor);
 
 
 }

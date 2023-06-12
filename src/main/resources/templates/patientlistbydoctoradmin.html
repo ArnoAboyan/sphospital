@@ -21,21 +21,29 @@
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false">
-              <fmt:message key="admin_jsp.Patients"/>
+               aria-expanded="false" th:text="#{admin_jsp.Patients}">
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="controller?command=adminpagecommand&page=1"><fmt:message key="admin_jsp.Doctors"/></a></li>
-              <li><a class="dropdown-item" href="controller?command=patientlistcommand&page=1"><fmt:message key="admin_jsp.Patients"/></a></li>
-              <li><a class="dropdown-item" href="controller?command=appointmentpagecommand&page=1"><fmt:message key="admin_jsp.Appointments"/></a></li>
+              <li>
+                <a class="dropdown-item" href="doctors" th:text="#{admin_jsp.Doctors}"></a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="patients" th:text="#{admin_jsp.Patients}"></a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="appointments" th:text="#{admin_jsp.Appointments}"></a>
+              </li>
             </ul>
           </li>
         </ul>
+          </li>
+        </ul>
       </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <form action="controller" method="get">
           <input type="hidden" name="command" value="logout">
-          <button type="submit" class="btn btn-outline-secondary" style="background-color: #e3f2fd;"><fmt:message key="admin_jsp.logout"/></button>
+          <button type="submit" class="btn btn-outline-secondary" style="background-color: #e3f2fd;" th:text="#{admin_jsp.logout}"></button>
         </form>
       </div>
     </div>
@@ -44,30 +52,94 @@
 
 
 <section class="adminpage-patientbydoctorid flex">
-  <h3><fmt:message key="admin_jsp.Patientsfor"/>: ${doctor.doctorName} ${doctor.doctorSurname} <span class="badge bg-info" style="background-color: #e3f2fd;">${numberOfPatients}</span></h3>
+  <h4>
+    <a th:text="#{admin_jsp.Patientsfor} + ' ' + ${doctorById.doctorName} + ' ' + ${doctorById.doctorSurname} + '-'"></a>
+    <span class="badge bg-info" style="background-color: #e3f2fd;" > <a th:text="${doctorById.countOfPatients}"></a>
+    </span>
+  </h4>
+
+
   <div class="container-sm">
     <div class="row">
       <div class="col-md-12">
         <table class="table table-sm">
           <thead>
           <tr>
-            <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info" style="background-color: #e3f2fd;" href="controller?command=patientlistbydoctor&page=1&sort=patient_name&patientsfordoctorid=${doctor.doctorId}"><fmt:message key="admin_jsp.Name"/></a></th>
-            <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info" style="background-color: #e3f2fd;" href="controller?command=patientlistbydoctor&page=1&sort=patient_surname&patientsfordoctorid=${doctor.doctorId}"><fmt:message key="admin_jsp.Surname"/></a></th>
-            <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info" style="background-color: #e3f2fd;" href="controller?command=patientlistbydoctor&page=1&sort=patient_date_of_birth&patientsfordoctorid=${doctor.doctorId}"><fmt:message key="admin_jsp.DateOfBirth"/></a></th>
-            <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info" style="background-color: #e3f2fd;" href="controller?command=patientlistbydoctor&page=1&sort=phone&patientsfordoctorid=${doctor.doctorId}"><fmt:message key="admin_jsp.Phone"/></a></th>
-            <th scope="col"><a class="list-group-item list-group-item-action list-group-item-info" style="background-color: #e3f2fd;" href="controller?command=patientlistbydoctor&page=1&sort=gender&patientsfordoctorid=${doctor.doctorId}"><fmt:message key="admin_jsp.Gender"/></a></th>
+            <th scope="col">
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientName', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.Name}"
+                 th:if="${patientsByDoctorId.sort == null || patientsByDoctorId.sort.getOrderFor('patientName') == null || patientsByDoctorId.sort.getOrderFor('patientName').isDescending()}"></a>
+
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientName,desc', page=${patients.number})}"
+                 th:text="#{admin_jsp.Name}"
+                 th:if="${patientsByDoctorId.sort != null && patientsByDoctorId.sort.getOrderFor('patientName') != null && !patientsByDoctorId.sort.getOrderFor('patientName').isDescending()}"></a>
+            </th>
+            <th scope="col">
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientSurname', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.Surname}"
+                 th:if="${patientsByDoctorId.sort == null || patientsByDoctorId.sort.getOrderFor('patientSurname') == null || patientsByDoctorId.sort.getOrderFor('patientSurname').isDescending()}"></a>
+
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientSurname,desc', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.Surname}"
+                 th:if="${patientsByDoctorId.sort != null && patientsByDoctorId.sort.getOrderFor('patientSurname') != null && !patientsByDoctorId.sort.getOrderFor('patientSurname').isDescending()}"></a>
+            </th>
+            <th scope="col">
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientDateOfBirth', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.DateOfBirth}"
+                 th:if="${patientsByDoctorId.sort == null || patientsByDoctorId.sort.getOrderFor('patientDateOfBirth') == null || patientsByDoctorId.sort.getOrderFor('patientDateOfBirth').isDescending()}"></a>
+
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientDateOfBirth,desc', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.DateOfBirth}"
+                 th:if="${patientsByDoctorId.sort != null && patientsByDoctorId.sort.getOrderFor('patientDateOfBirth') != null && !patientsByDoctorId.sort.getOrderFor('patientDateOfBirth').isDescending()}"></a>
+            </th>
+            <th scope="col">
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientPhone', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.Phone}"
+                 th:if="${patientsByDoctorId.sort == null || patientsByDoctorId.sort.getOrderFor('patientPhone') == null || patientsByDoctorId.sort.getOrderFor('patientPhone').isDescending()}"></a>
+
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientPhone,desc', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.Phone}"
+                 th:if="${patientsByDoctorId.sort != null && patientsByDoctorId.sort.getOrderFor('patientPhone') != null && !patientsByDoctorId.sort.getOrderFor('patientPhone').isDescending()}"></a>
+            </th>
+            <th scope="col">
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientGender', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.Gender}"
+                 th:if="${patientsByDoctorId.sort == null || patientsByDoctorId.sort.getOrderFor('patientGender') == null || patientsByDoctorId.sort.getOrderFor('patientGender').isDescending()}"></a>
+
+              <a class="list-group-item list-group-item-action list-group-item-info"
+                 style="background-color: #e3f2fd;"
+                 th:href="@{${#ctx.springRequestContext.requestUri}(sort='patientGender,desc', page=${patientsByDoctorId.number})}"
+                 th:text="#{admin_jsp.Gender}"
+                 th:if="${patientsByDoctorId.sort != null && patientsByDoctorId.sort.getOrderFor('patientGender') != null && !patientsByDoctorId.sort.getOrderFor('patientGender').isDescending()}"></a>
+            </th>
           </tr>
           </thead>
           <tbody>
-          <c:forEach var="patient" items="${patientsbydoctor}">
-            <tr>
-            <tr>
-              <td>${patient.patientName}</td>
-              <td>${patient.patientSurname}</td>
-              <td>${patient.patientDateOfBirth}</td>
-              <td>${patient.patientPhone}</td>
-              <td>${patient.patientGender}</td>
-              <td>
+          <tr th:each="patient : ${patientsByDoctorId}">
+            <td th:text="${patient.patientId.patientName}"></td>
+            <td th:text="${patient.patientId.patientSurname}"></td>
+            <td th:text="${patient.patientId.patientDateOfBirth}"></td>
+            <td th:text="${patient.patientId.patientPhone}"></td>
+            <td th:text="${patient.patientId.patientGender}"></td>
+            <td>
                 <form action="controller" method="get">
                   <input type="hidden" name="command" value="hospitalcardbypatientid">
                   <input type="hidden" name="patientid" value=${patient.patientId}>
@@ -86,10 +158,10 @@
 
 
 
-<%--PAGINATION--%>
+<!--PAGINATION-->
 
 
-<%--FOOTER--%>
+<!--FOOTER-->
 <footer class="pt-1 my-md-1 pt-md-1 border-top abs "
         style="position: fixed;
         bottom: -10px;

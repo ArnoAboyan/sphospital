@@ -150,7 +150,5 @@ public class Doctor {
 
     public void setCountOfPatients(int countOfPatients) {
         this.countOfPatients = countOfPatients;
-
-
     }
 }

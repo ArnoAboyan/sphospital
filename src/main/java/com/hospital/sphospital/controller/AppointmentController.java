@@ -30,10 +30,11 @@ public class AppointmentController {
     AppointmentRepository appointmentRepository;
 
     @Autowired
-    AddAppointmentService appointmentService;
+    AddAppointmentService addappointmentService;
 
     @Autowired
     AppointmentListService appointmentListService;
+
 
 
 
@@ -51,7 +52,9 @@ public class AppointmentController {
             model.addAttribute("bindingResult", bindingResult);
             return "error";
         }
-        appointmentRepository.save(appointment);
+
+        addappointmentService.addNewAppointment(appointment);
+//        appointmentRepository.save(appointment);
         return "redirect:/patients?page=" + (pageNumber);
     }
 

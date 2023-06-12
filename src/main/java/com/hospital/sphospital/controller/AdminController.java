@@ -35,6 +35,9 @@ public class AdminController {
     private UpdateDoctorService updateDoctorService;
 
     @Autowired
+    DoctorByIdService doctorByIdService;
+
+    @Autowired
     PatientListByDoctorForAdminService patientListByDoctorForAdminService;
 
 
@@ -107,7 +110,20 @@ public class AdminController {
             model.addAttribute("bindingResult", bindingResult);
             return "error";
         }
-        model.addAttribute("appointmentsByDoctorId",  patientListByDoctorForAdminService.findByDoctorId(doctor, pageable));
+
+        Sort sort = pageable.getSort();
+
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            String sortName = order.getProperty();
+            model.addAttribute("sortName", sortName);
+            System.out.println(sortName);
+        }
+
+        var doctorById = doctorByIdService.findByDoctorId(doctor);
+        System.out.println(doctorById);
+        model.addAttribute("doctorById", doctorById);
+        model.addAttribute("patientsByDoctorId",  patientListByDoctorForAdminService.findByDoctorId(doctor, pageable));
 
         return "patientlistbydoctoradmin";
     }
