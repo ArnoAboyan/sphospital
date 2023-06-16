@@ -5,6 +5,7 @@ import com.hospital.sphospital.entity.Appointment;
 import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.AppointmentRepository;
+import com.hospital.sphospital.repositorie.HospitalCardRepository;
 import com.hospital.sphospital.service.AddAppointmentService;
 import com.hospital.sphospital.service.AppointmentListService;
 import jakarta.validation.Valid;
@@ -35,6 +36,9 @@ public class AppointmentController {
     @Autowired
     AppointmentListService appointmentListService;
 
+    @Autowired
+    HospitalCardRepository hospitalCardRepository;
+
 
 
 
@@ -54,7 +58,7 @@ public class AppointmentController {
         }
 
         addappointmentService.addNewAppointment(appointment);
-//        appointmentRepository.save(appointment);
+
         return "redirect:/patients?page=" + (pageNumber);
     }
 

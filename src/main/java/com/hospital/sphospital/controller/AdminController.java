@@ -90,18 +90,6 @@ public class AdminController {
         return "redirect:/doctors?page=" + (pageNumber);
     }
 
-//    @GetMapping("/patientsByDoctorID")
-//    private String findPatientsByDoctorId(@RequestParam("doctorId") int doctorId,
-//                                          @PageableDefault(size = 5)  Pageable pageable,
-//                                          Model model){
-//
-//        model.addAttribute("appointmentsByDoctorId",  patientListByDoctorForAdminService.findByDoctorId(doctorId, pageable));
-//
-//        return "patientlistbydoctoradmin";
-//    }
-
-
-
     @GetMapping("/patientsByDoctorID")
     private String findPatientsByDoctorId(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult,
                                           @PageableDefault(size = 5)  Pageable pageable,
@@ -124,8 +112,9 @@ public class AdminController {
         System.out.println(doctorById);
         model.addAttribute("doctorById", doctorById);
         model.addAttribute("patientsByDoctorId",  patientListByDoctorForAdminService.findByDoctorId(doctor, pageable));
-
         return "patientlistbydoctoradmin";
     }
+
+
 
 }

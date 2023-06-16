@@ -13,11 +13,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
-    @Query("SELECT a FROM Appointment a WHERE a.doctorId = :doctorId GROUP BY a.appointmentId")
+//ALL PATIENT BY DOCTOR WITHOUT REPEATS
+@Query("SELECT DISTINCT a.patientId FROM Appointment a WHERE a.doctorId = :doctorId")
     Page<Appointment> findByDoctorId(@Param("doctorId") Doctor doctor, Pageable pageable);
 
 
-    int countByDoctorId(Doctor doctor);
+// COUNT OF PATIENT BY DOCTOR WITH DISTINCT (INT)
+   @Query("SELECT COUNT(DISTINCT a.patientId) FROM Appointment a WHERE a.doctorId = :doctorId")
+    int countByDoctorId(@Param("doctorId") Doctor doctor);
 
 
 }

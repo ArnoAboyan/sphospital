@@ -1,12 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
-<jsp:useBean id="hospitalcard" scope="request" type="entitys.HospitalCard"/>
-<jsp:useBean id="doctor" scope="request" type="entitys.Doctor"/>
-<jsp:useBean id="patient" scope="request" type="entitys.Patient"/>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="mylib" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setBundle basename="resources"/>
-<c:set var="currentAddressPage" value="controller?command=hospitalcardbypatientid&patientid=${patient.patientId}&doctorid=${doctor.doctorId}" scope="session"></c:set>
 
 <html>
 <head>
@@ -28,7 +19,7 @@
       </div>
     <form action="controller" method="get">
       <input type="hidden" name="command" value="logout">
-      <button type="submit" class="btn btn-outline-secondary" style="background-color: #e3f2fd;"><fmt:message key="admin_jsp.logout"/></button>
+      <button type="submit" class="btn btn-outline-secondary" style="background-color: #e3f2fd;" th:text="#{admin_jsp.logout}"></button>
     </form>
     </div>
   </nav>
@@ -39,8 +30,10 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-12 fs-2 text-center "><fmt:message key="admin_jsp.hospitalcardHOSPITALCARD"/></div>
-      <div class="col-4 fs-4"><fmt:message key="admin_jsp.Doctor"/>:<br>${doctor.doctorName} ${doctor.doctorSurname} | ${doctor.category}</div>
+      <div class="col-12 fs-2 text-center "  th:text="#{admin_jsp.hospitalcardHOSPITALCARD}"></div>
+      <div class="col-4 fs-4" th:text="#{admin_jsp.Doctor} + ':'"><br>
+        <h4 th:text="${hospitalcard.doctorId.doctorName + ' ' + hospitalcard.doctorId.doctorSurname +  '|' + hospitalcard.doctorId.category}" ></h4>
+      </div>
       <div class="col-4 fs-4"></div>
       <div class="col-4 fs-4"><fmt:message key="admin_jsp.Patient"/>:<br>${patient.patientName} ${patient.patientSurname}<br>${patient.patientDateOfBirth}<br>${patient.patientPhone}</div>
       <div class="col-9 fs-6 fw-bold"><fmt:message key="admin_jsp.hospitalcardPROCEDURE"/></div>
