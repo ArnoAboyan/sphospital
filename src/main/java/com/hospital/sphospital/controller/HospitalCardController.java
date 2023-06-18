@@ -22,16 +22,16 @@ public class HospitalCardController {
 
 
     @GetMapping
-    private String getHospitalCard(@RequestParam("patientId") int patientId,
-                                   @RequestParam("doctorId") int doctorId,
+    private String getHospitalCard(@ModelAttribute("patientId") Doctor doctorId,
+                                   @ModelAttribute("doctorId") Patient patientId,
                                    Model model) {
 
+
         model.addAttribute("hospitalcard",
-                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId, patientId));
+                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId.getDoctorId(), patientId.getPatientId()).toString());
 
-        System.out.println(model);
 
-        return "redirect:/hospitalcard";
+        return "hospitalcard";
     }
 }
 

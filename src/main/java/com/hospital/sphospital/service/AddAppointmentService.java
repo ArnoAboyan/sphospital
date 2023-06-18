@@ -2,11 +2,15 @@ package com.hospital.sphospital.service;
 
 import com.hospital.sphospital.entity.Appointment;
 import com.hospital.sphospital.entity.Doctor;
+import com.hospital.sphospital.entity.HospitalCard;
 import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.repositorie.AppointmentRepository;
 import com.hospital.sphospital.repositorie.DoctorRepository;
+import com.hospital.sphospital.repositorie.HospitalCardRepository;
 import com.hospital.sphospital.repositorie.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +28,19 @@ public class AddAppointmentService {
     @Autowired
     PatientRepository patientRepository;
 
+    @Autowired
+    AddHospitalCardService addHospitalCardService;
+
+
+
+    @Autowired
+    HospitalCardRepository hospitalCardRepository;
+
     @Transactional
     public Boolean addNewAppointment(Appointment appointment) {
         System.out.println(appointment.toString());
         appointmentRepository.save(appointment);
+        addHospitalCardService.crateHospitalCard(appointment);
 
         return true;
     }

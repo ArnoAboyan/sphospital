@@ -15,6 +15,7 @@ import lombok.ToString;
 @Table(name = "hospitalcards")
 public class HospitalCard {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hospitalcard_id")
     private int hospitalCardId;
     @ManyToOne
@@ -33,6 +34,11 @@ public class HospitalCard {
     private String medications;
     @Column(name = "operations")
     private String operations;
+
+    public HospitalCard(@NonNull Patient patient, @NonNull Doctor doctor) {
+        this.patient = patient;
+        this.doctor = doctor;
+    }
 
 
 //    @Transient
