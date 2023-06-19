@@ -28,7 +28,7 @@ public class HospitalCardController {
 
 
         model.addAttribute("hospitalcard",
-                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId.getDoctorId(), patientId.getPatientId()).toString());
+                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId.getDoctorId(), patientId.getPatientId()));
 
 
         return "hospitalcard";

@@ -13,7 +13,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" >Hospital</a>
       <div class="container-fluid">
-        <a href="controller?command=patientlistbydoctor&page=1&patientsfordoctorid=${doctor.doctorId}" style="background-color: #e3f2fd;" class="btn btn-outline-secondary" role="button" ><fmt:message key="admin_jsp.hospitalcard<Back"/></a>
+        <a th:href="@{/doctors/patientsByDoctorID(doctorId=${hospitalcard.doctor.doctorId})}" style="background-color: #e3f2fd;" class="btn btn-outline-secondary" role="button" th:text="#{admin_jsp.hospitalcardBack}"></a>
         </button>
       </div>
       </div>
@@ -31,18 +31,17 @@
   <div class="container">
     <div class="row">
       <div class="col-12 fs-2 text-center "  th:text="#{admin_jsp.hospitalcardHOSPITALCARD}"></div>
-      <div class="col-4 fs-4" th:text="#{admin_jsp.Doctor} + ':'"><br>
-        <h4 th:text="${hospitalcard.doctorId.doctorName + ' ' + hospitalcard.doctorId.doctorSurname +  '|' + hospitalcard.doctorId.category}" ></h4>
+      <div class="col-4 fs-4" th:utext="#{admin_jsp.Doctor} + ':' + '<br>' +  ${hospitalcard.doctor.doctorName} + ' ' +  ${hospitalcard.doctor.doctorSurname} + ' <br> ' + ' | ' +  ${hospitalcard.doctor.category}">
       </div>
       <div class="col-4 fs-4"></div>
-      <div class="col-4 fs-4"><fmt:message key="admin_jsp.Patient"/>:<br>${patient.patientName} ${patient.patientSurname}<br>${patient.patientDateOfBirth}<br>${patient.patientPhone}</div>
-      <div class="col-9 fs-6 fw-bold"><fmt:message key="admin_jsp.hospitalcardPROCEDURE"/></div>
+      <div class="col-4 fs-4" th:utext="#{admin_jsp.Patient} + ':' + '<br>' + ${hospitalcard.patient.patientName} + ' ' + ${hospitalcard.patient.patientSurname} + ' ' + '<br>' + ${hospitalcard.patient.patientDateOfBirth} + ' ' + '<br>' + ${hospitalcard.patient.patientPhone}"></div>
+      <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardPROCEDURE}"></div>
       <div class="col-9 fs-8 "> <p> ${hospitalcard.procedures} </p></div>
-      <div class="col-9 fs-6 fw-bold"><fmt:message key="admin_jsp.hospitalcardMEDICATION"/></div>
+      <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardMEDICATION}"></div>
       <div class="col-9 fs-8" ><p>${hospitalcard.medications} </p> </div>
-      <div class="col-9 fs-6 fw-bold"><fmt:message key="admin_jsp.hospitalcardOPERATION"/></div>
+      <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardOPERATION}"></div>
       <div class="col-9 fs-8" ><p>${hospitalcard.operations} </p> </div>
-      <div class="col-9 fs-6 fw-bold"><fmt:message key="admin_jsp.hospitalcardDIAGNOSIS"/></div>
+      <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardDIAGNOSIS}"></div>
       <div class="col-9 fs-8" ><p>${hospitalcard.diagnosis} </p> </div>
     </div>
   </div>
@@ -52,7 +51,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel1"><fmt:message key="admin_jsp.hospitalcardVisitHistory"/></h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel1" th:text="#{admin_jsp.hospitalcardVisitHistory}"></h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -72,16 +71,18 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampledischargedModal"><fmt:message key="admin.jsp.DiscargePatient"/></h1>
+          <h1 class="modal-title fs-5" id="exampledischargedModal" th:text="#{admin.jsp.DiscargePatient}"></h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="h4 pb-2 mb-4 text-warning border-bottom border-danger">
-            <fmt:message key="admin_jsp.Attention!"/>
+          <div class="h4 pb-2 mb-4 text-warning border-bottom border-danger" th:text="#{admin_jsp.Attention} + '!'">
           </div>
-          <a class="text-secondary text-decoration-none"><fmt:message key="admin.jsp.DiscConfirm"/><br>${patient.patientName} ${patient.patientSurname}<br>${patient.patientDateOfBirth}<br>
-            ${patient.patientPhone}
-            <br> DIAGNISIS: ${hospitalcard.diagnosis}
+          <a class="text-secondary text-decoration-none" th:utext="#{admin.jsp.DiscConfirm}
+          + '<br>' + ${hospitalcard.patient.patientName}
+          + ' ' + ${hospitalcard.patient.patientSurname}
+          + ' ' + '<br>' + ${hospitalcard.patient.patientDateOfBirth}
+          + ' ' + '<br>' + ${hospitalcard.patient.patientPhone}
++ ' ' + '<br>' + 'DIAGNISIS:' + ${hospitalcard.diagnosis}">
           </a>
         </div>
         <div class="modal-footer">
@@ -92,7 +93,7 @@
             <input type="hidden" name="command" value="deletepatientcommand">
             <input type="hidden" name="deletepatient"
                    value=${patient.patientId}>
-            <button type="submit" class="btn btn-warning"><fmt:message key="admin.jsp.Discarge"/></button>
+            <button type="submit" class="btn btn-warning" th:text="#{admin.jsp.Discarge}"></button>
           </form>
         </div>
       </div>
@@ -112,18 +113,15 @@
 
         <div class="d-flex">
           <div class="p-2 flex-fill"><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                             data-bs-target="#changecardModal">
-            <fmt:message key="admin_jsp.hospitalcardChangeCard"/>
+                                             data-bs-target="#changecardModal" th:text="#{admin_jsp.hospitalcardChangeCard}">
           </button>
           </div>
 
-          <div class="p-2 flex-fill"><button type="button" class="btn btn-outline-dark " data-bs-toggle="modal" data-bs-target="#visitModal">
-            <fmt:message key="admin_jsp.hospitalcardVisitHistory"/>
+          <div class="p-2 flex-fill"><button type="button" class="btn btn-outline-dark " data-bs-toggle="modal" data-bs-target="#visitModal" th:text="#{admin_jsp.hospitalcardVisitHistory}">
           </button>
           </div>
 
-          <div class="p-2 flex-fill"><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#dischargedModal">
-            <fmt:message key="admin.jsp.Discarge"/>
+          <div class="p-2 flex-fill"><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#dischargedModal" th:text="#{admin.jsp.Discarge}">
           </button>
           </div>
         </div>
@@ -141,7 +139,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel"><fmt:message key="admin_jsp.hospitalcardChangeCard"/></h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel" th:text="#{admin_jsp.hospitalcardChangeCard}"></h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -152,8 +150,7 @@
             <input type="hidden" name="doctorid" value="${doctor.doctorId}">
             <input type="hidden" name="patientid" value="${patient.patientId}">
             <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <fmt:message key="admin_jsp.hospitalcardPROCEDURE"/>
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" th:text="#{admin_jsp.hospitalcardPROCEDURE}">
               </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -164,8 +161,7 @@
           </div>
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                <fmt:message key="admin_jsp.hospitalcardMEDICATION"/>
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" th:text="#{admin_jsp.hospitalcardMEDICATION}">
               </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -176,8 +172,7 @@
           </div>
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                <fmt:message key="admin_jsp.hospitalcardOPERATION"/>
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" th:text="#{admin_jsp.hospitalcardOPERATION}">
               </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -188,8 +183,7 @@
           </div>
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingFore">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFore" aria-expanded="false" aria-controls="collapseFore">
-                <fmt:message key="admin_jsp.hospitalcardDIAGNOSIS"/>
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFore" aria-expanded="false" aria-controls="collapseFore" th:text="#{admin_jsp.hospitalcardDIAGNOSIS}">
               </button>
             </h2>
             <div id="collapseFore" class="accordion-collapse collapse" aria-labelledby="headingFore" data-bs-parent="#accordionExample">
@@ -199,7 +193,7 @@
             </div>
           </div>
         </div>
-          <button type="submit" class="btn btn-secondary btn-lg"><fmt:message key="admin_jsp.hospitalcardSave"/></button>
+          <button type="submit" class="btn btn-secondary btn-lg" th:text="#{admin_jsp.hospitalcardSave}"></button>
           </form>
       </div>
     </div>
