@@ -36,13 +36,13 @@
       <div class="col-4 fs-4"></div>
       <div class="col-4 fs-4" th:utext="#{admin_jsp.Patient} + ':' + '<br>' + ${hospitalcard.patient.patientName} + ' ' + ${hospitalcard.patient.patientSurname} + ' ' + '<br>' + ${hospitalcard.patient.patientDateOfBirth} + ' ' + '<br>' + ${hospitalcard.patient.patientPhone}"></div>
       <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardPROCEDURE}"></div>
-      <div class="col-9 fs-8 "> <p> ${hospitalcard.procedures} </p></div>
+      <div class="col-9 fs-8 "> <p th:text="${hospitalcard.procedures}"></p></div>
       <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardMEDICATION}"></div>
-      <div class="col-9 fs-8" ><p>${hospitalcard.medications} </p> </div>
+      <div class="col-9 fs-8" ><p th:text="${hospitalcard.medications}"></p> </div>
       <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardOPERATION}"></div>
-      <div class="col-9 fs-8" ><p>${hospitalcard.operations} </p> </div>
+      <div class="col-9 fs-8" ><p th:text="${hospitalcard.operations}"></p> </div>
       <div class="col-9 fs-6 fw-bold" th:text="#{admin_jsp.hospitalcardDIAGNOSIS}"></div>
-      <div class="col-9 fs-8" ><p>${hospitalcard.diagnosis} </p> </div>
+      <div class="col-9 fs-8" ><p th:text="${hospitalcard.diagnosis}"></p> </div>
     </div>
   </div>
 
@@ -143,19 +143,17 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="controller" method="post">
+        <form th:action="@{/hospitalcard/edit}" th:method="get">
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
-            <input type="hidden" name="command" value="changehospitalcardcommand">
-            <input type="hidden" name="doctorid" value="${doctor.doctorId}">
-            <input type="hidden" name="patientid" value="${patient.patientId}">
-            <h2 class="accordion-header" id="headingOne">
+            <input type="hidden" name="hospitalcardid" th:value="${hospitalcard.hospitalCardId}">
+            <h2 class="accordion-header" id="headingOne" >
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" th:text="#{admin_jsp.hospitalcardPROCEDURE}">
               </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <textarea class="form-control" name="procedures" rows="5" id="procedures">${hospitalcard.procedures}</textarea>
+                <textarea class="form-control" name="procedures" rows="5" id="procedures" th:text="${hospitalcard.procedures}"></textarea>
               </div>
             </div>
           </div>
@@ -166,7 +164,7 @@
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <textarea class="form-control" name="medications" rows="5" id="medications">${hospitalcard.medications}</textarea>
+                <textarea class="form-control" name="medications" rows="5" id="medications" th:text="${hospitalcard.medications}"></textarea>
               </div>
             </div>
           </div>
@@ -177,7 +175,7 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <textarea class="form-control" name="operations" rows="5" id="operations">${hospitalcard.operations}</textarea>
+                <textarea class="form-control" name="operations" rows="5" id="operations" th:text="${hospitalcard.operations}"></textarea>
               </div>
             </div>
           </div>
@@ -188,7 +186,7 @@
             </h2>
             <div id="collapseFore" class="accordion-collapse collapse" aria-labelledby="headingFore" data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <textarea class="form-control" name="diagnosis" rows="5" id="diagnosis">${hospitalcard.diagnosis}</textarea>
+                <textarea class="form-control" name="diagnosis" rows="5" id="diagnosis" th:text="${hospitalcard.diagnosis}"></textarea>
               </div>
             </div>
           </div>
@@ -200,7 +198,7 @@
   </div>
 </div>
 
-<%--FOOTER--%>
+<!--FOOTER-->
 <footer class="pt-1 my-md-1 pt-md-1 border-top abs "
         style="position: fixed;
         bottom: -10px;

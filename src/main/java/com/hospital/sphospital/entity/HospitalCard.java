@@ -19,12 +19,12 @@ public class HospitalCard {
     @Column(name = "hospitalcard_id")
     private int hospitalCardId;
     @ManyToOne
-    @JoinColumn(name = "patientid")
+    @JoinColumn(name = "patientid", referencedColumnName = "patient_id")
     @NonNull
     private Patient patient;
     @ManyToOne
     @NonNull
-    @JoinColumn(name = "doctorid")
+    @JoinColumn(name = "doctorid", referencedColumnName = "doctor_id")
     private Doctor doctor;
     @Column(name = "diagnosis")
     private String diagnosis;
@@ -35,36 +35,20 @@ public class HospitalCard {
     @Column(name = "operations")
     private String operations;
 
-    public HospitalCard(@NonNull Patient patient, @NonNull Doctor doctor) {
+    public HospitalCard(Patient patient, Doctor doctor) {
         this.patient = patient;
         this.doctor = doctor;
     }
-
-
-//    @Transient
-//    private String patientNameById;
-//    @Transient
-//    private String patientSurnameById;
-//    @Transient
-//    private String doctorNameById;
-//    @Transient
-//    private String doctorSurnameById;
 //
-//    @Transient
-//    private Category doctorCategoryById;
-//    @Transient
-//    private Date patientDateOfBirth;
-
-
-
-//    public HospitalCard(Patient patientId, Doctor doctorId, String diagnosis, String procedures, String medications, String operations) {
-//        this.patientId = patientId;
-//        this.doctorId = doctorId;
+//    public HospitalCard(Patient patient,Doctor doctor, String diagnosis, String procedures, String medications, String operations) {
+//        this.patient = patient;
+//        this.doctor = doctor;
 //        this.diagnosis = diagnosis;
 //        this.procedures = procedures;
 //        this.medications = medications;
 //        this.operations = operations;
 //    }
+
 
     public int getHospitalCardId() {
         return hospitalCardId;

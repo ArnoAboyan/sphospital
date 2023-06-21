@@ -2,8 +2,11 @@ package com.hospital.sphospital.controller;
 
 
 import com.hospital.sphospital.entity.Doctor;
+import com.hospital.sphospital.entity.HospitalCard;
 import com.hospital.sphospital.entity.Patient;
+import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.service.HospitalCardService;
+import com.hospital.sphospital.service.UpdateHospitalCadrService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ public class HospitalCardController {
     @Autowired
     HospitalCardService hospitalCardService;
 
+    @Autowired
+    UpdateHospitalCadrService updateHospitalCadrService;
+
 
     @GetMapping
     private String getHospitalCard(@ModelAttribute("patientId") Doctor doctorId,
@@ -30,27 +36,41 @@ public class HospitalCardController {
         model.addAttribute("hospitalcard",
                 hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId.getDoctorId(), patientId.getPatientId()));
 
-
         return "hospitalcard";
     }
+
+    @GetMapping("/edit")
+    public String updateHospitalCard(@RequestParam("hospitalcard") int hospitalCardId,
+
+                                     Model model) throws CommandException {
+
+
+        System.out.println(hospitalCardId);
+
+//        updateHospitalCadrService.updateHospitalCard(hospitalCardId);
+
+        return "redirect:/hospitalcard";
+    }
+
+
+
+//    @GetMapping("/edit")
+////    public String updateHospitalCard(@Valid @ModelAttribute("hospitalcard") HospitalCard hospitalCard,
+////                                      BindingResult bindingResult,
+////                                      Model model) throws CommandException {
+////        if (bindingResult.hasErrors()) {
+////            model.addAttribute("bindingResult", bindingResult);
+////            return "error";
+////        }
+////
+////        System.out.println(hospitalCard);
+////
+////        updateHospitalCadrService.updateHospitalCard(hospitalCard);
+////
+////        return "redirect:/hospitalcard";
+////    }
+
+
+
 }
 
-//        @PostMapping
-//    private String getHospitalCard(@Valid @ModelAttribute("patient") Patient patient,
-//                                   @ModelAttribute("doctor") Doctor doctor,
-//                                   BindingResult bindingResult,
-//                                   Model model) {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("bindingResult", bindingResult);
-//            return "error";
-//        }
-//            model.addAttribute("hospitalcard",
-//                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctor, patient));
-//
-//        System.out.println(model);
-//
-//        return"redirect:/hospitalcard";
-//    }
-//
-//
-//}

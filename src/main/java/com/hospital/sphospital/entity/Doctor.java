@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 
 
 @Component
@@ -59,6 +60,10 @@ public class Doctor {
 
     @Column(name = "countofpatients")
     private int countOfPatients;
+
+
+//    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+//    private List<HospitalCard> hospitalCards;
 
 
 
@@ -151,4 +156,12 @@ public class Doctor {
     public void setCountOfPatients(int countOfPatients) {
         this.countOfPatients = countOfPatients;
     }
+
+//    public List<HospitalCard> getHospitalCards() {
+//        return hospitalCards;
+//    }
+//
+//    public void setHospitalCards(List<HospitalCard> hospitalCards) {
+//        this.hospitalCards = hospitalCards;
+//    }
 }

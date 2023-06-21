@@ -57,6 +57,7 @@ public class AppointmentController {
             return "error";
         }
 
+        System.out.println(appointment);
         addappointmentService.addNewAppointment(appointment);
 
         return "redirect:/patients?page=" + (pageNumber);

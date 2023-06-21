@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigInteger;
 import java.sql.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @ToString
@@ -46,6 +47,10 @@ public class Patient {
 //    @Pattern(regexp = "^[8]{1}[0]{1}[0-9]{9}+$", message = "The entered phone is not correct")
 //    @Digits(integer = 11, fraction = 0, message = "Quantity must be a 11-digit number")
     private Long patientPhone;
+
+
+//    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+//    private List<HospitalCard> hospitalCards;
 
 
     public int getPatientId() {
@@ -97,5 +102,11 @@ public class Patient {
         this.patientPhone = patientPhone;
     }
 
-
+//    public List<HospitalCard> getHospitalCards() {
+//        return hospitalCards;
+//    }
+//
+//    public void setHospitalCards(List<HospitalCard> hospitalCards) {
+//        this.hospitalCards = hospitalCards;
+//    }
 }
