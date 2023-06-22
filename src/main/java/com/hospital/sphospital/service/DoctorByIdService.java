@@ -21,5 +21,12 @@ public class DoctorByIdService {
 
         return doctorRepository.findById(innerdoctor.getDoctorId()).orElseThrow(() -> new RuntimeException("Doctor not found"));
     }
+
+    @Transactional
+    public Doctor findByDoctorIdInteger(int innerdoctor) {
+
+
+        return doctorRepository.findById(innerdoctor).orElseThrow(() -> new RuntimeException("Doctor not found"));
+    }
 }
 

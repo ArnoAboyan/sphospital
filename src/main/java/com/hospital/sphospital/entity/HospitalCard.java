@@ -40,14 +40,15 @@ public class HospitalCard {
         this.doctor = doctor;
     }
 //
-//    public HospitalCard(Patient patient,Doctor doctor, String diagnosis, String procedures, String medications, String operations) {
-//        this.patient = patient;
-//        this.doctor = doctor;
-//        this.diagnosis = diagnosis;
-//        this.procedures = procedures;
-//        this.medications = medications;
-//        this.operations = operations;
-//    }
+    public HospitalCard(int hospitalCardId, Patient patient,Doctor doctor, String diagnosis, String procedures, String medications, String operations) {
+        this.hospitalCardId = hospitalCardId;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.diagnosis = diagnosis;
+        this.procedures = procedures;
+        this.medications = medications;
+        this.operations = operations;
+    }
 
 
     public int getHospitalCardId() {

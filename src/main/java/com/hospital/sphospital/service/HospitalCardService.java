@@ -12,10 +12,20 @@ public class HospitalCardService {
    @Autowired
     HospitalCardRepository hospitalCardRepository;
 
-   public HospitalCard getHospitalCardByDoctorIdAndPatientId (int doctor, int patient){
+    @Autowired
+    DoctorByIdService doctorByIdService;
+
+    @Autowired
+    PatientByIdService patientByIdService;
+
+   public HospitalCard getHospitalCardByDoctorIdAndPatientId (int patientId, int doctorid){
 
 
-       return hospitalCardRepository.findByDoctorDoctorIdAndPatientPatientId(doctor,patient);
+
+       Doctor doctor = doctorByIdService.findByDoctorIdInteger(doctorid);
+       Patient patient = patientByIdService.findByPatientIdInteger(patientId);
+
+       return hospitalCardRepository.findByDoctorDoctorIdAndPatientPatientId(doctor.getDoctorId(),patient.getPatientId());
 
    }
 }

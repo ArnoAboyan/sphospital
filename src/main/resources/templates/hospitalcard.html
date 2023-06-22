@@ -54,12 +54,9 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel1" th:text="#{admin_jsp.hospitalcardVisitHistory}"></h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <c:forEach var="visitcard" items="${visitcard}">
-            <option value=${visitcard.appointmentId}>
-                ${visitcard.appointmentData}
+        <div class="modal-body" th:each="visitcard : ${visitcard}">
+            <option th:text="${visitcard.appointmentData}">
             </option>
-          </c:forEach>
         </div>
       </div>
     </div>
@@ -143,7 +140,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form th:action="@{/hospitalcard/edit}" th:method="get">
+        <form th:action="@{/hospitalcard/edit}" th:method="POST">
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
             <input type="hidden" name="hospitalcardid" th:value="${hospitalcard.hospitalCardId}">
