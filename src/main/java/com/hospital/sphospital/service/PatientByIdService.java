@@ -16,7 +16,6 @@ public class PatientByIdService {
     @Transactional
     public Patient findByPatientId(Patient innerpatient) {
 
-
         return patientRepository.findById(innerpatient.getPatientId()).orElseThrow(() -> new RuntimeException("Patient not found"));
     }
 

@@ -6,12 +6,13 @@ import com.hospital.sphospital.entity.HospitalCard;
 import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.AppointmentRepository;
-import com.hospital.sphospital.service.AppointmentListService;
-import com.hospital.sphospital.service.HospitalCardService;
-import com.hospital.sphospital.service.UpdateHospitalCadrService;
+import com.hospital.sphospital.service.*;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,14 @@ public class HospitalCardController {
 
     @Autowired
     AppointmentListService appointmentListService;
+    @Autowired
+    DeletePatientService deletePatientService;
+
+    @Autowired
+    DoctorByIdService doctorByIdService;
+
+    @Autowired
+    PatientListByDoctorForAdminService patientListByDoctorForAdminService;
 
 
     @GetMapping
@@ -38,28 +47,22 @@ public class HospitalCardController {
                                    Model model) {
 
 
-
-        model.addAttribute("visitcard", appointmentListService.visitList(patientId,doctorId));
+        model.addAttribute("visitcard", appointmentListService.visitList(patientId, doctorId));
         model.addAttribute("hospitalcard",
 //                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId.getDoctorId(), patientId.getPatientId()));
                 hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId, patientId));
-
-
 
 
         return "hospitalcard";
     }
 
 
-
-
-
     @PostMapping("/edit")
     public String updateHospitalCard(@RequestParam("hospitalcardid") int hospitalCardId,
-                                      @RequestParam("procedures") String procedures,
-                                      @RequestParam("medications") String medications,
-                                      @RequestParam("operations") String operations,
-                                      @RequestParam("diagnosis") String diagnosis,
+                                     @RequestParam("procedures") String procedures,
+                                     @RequestParam("medications") String medications,
+                                     @RequestParam("operations") String operations,
+                                     @RequestParam("diagnosis") String diagnosis,
                                      Model model) throws CommandException {
 
 
@@ -71,7 +74,23 @@ public class HospitalCardController {
         return "hospitalcard";
     }
 
+    @GetMapping("/discharged")
+    public String dischargedPatient(@RequestParam("patientId") int patientId,
+                                     @RequestParam("doctorId") int doctorId,
+                                    @PageableDefault(size = 5) Pageable pageable,
+                                     Model model) throws CommandException {
 
+
+        System.out.println(patientId);
+        System.out.println(doctorId);
+
+        deletePatientService.patientDelete(patientId);
+
+       var doctor= doctorByIdService.findByDoctorIdInteger(doctorId);
+        model.addAttribute("doctorById", doctor);
+        model.addAttribute("patientsByDoctorId", patientListByDoctorForAdminService.findByDoctorId(doctor, pageable));
+        return "patientlistbydoctoradmin";
+    }
 
 //    @GetMapping("/edit")
 ////    public String updateHospitalCard(@Valid @ModelAttribute("hospitalcard") HospitalCard hospitalCard,
@@ -88,7 +107,6 @@ public class HospitalCardController {
 ////
 ////        return "redirect:/hospitalcard";
 ////    }
-
 
 
 }

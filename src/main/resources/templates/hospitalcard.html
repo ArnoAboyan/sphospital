@@ -86,10 +86,9 @@
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          <form action="controller" method="post">
-            <input type="hidden" name="command" value="deletepatientcommand">
-            <input type="hidden" name="deletepatient"
-                   value=${patient.patientId}>
+          <form  th:action="@{/hospitalcard/discharged}" th:method="GET">
+            <input type="hidden" name="patientId" th:value="${hospitalcard.patient.patientId}">
+            <input type="hidden" name="doctorId" th:value="${hospitalcard.doctor.doctorId}">
             <button type="submit" class="btn btn-warning" th:text="#{admin.jsp.Discarge}"></button>
           </form>
         </div>

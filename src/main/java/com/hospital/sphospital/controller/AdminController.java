@@ -91,7 +91,7 @@ public class AdminController {
     }
 
     @GetMapping("/patientsByDoctorID")
-    private String findPatientsByDoctorId(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult,
+    public String findPatientsByDoctorId(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult,
                                           @PageableDefault(size = 5)  Pageable pageable,
                                           Model model){
         if (bindingResult.hasErrors()) {
