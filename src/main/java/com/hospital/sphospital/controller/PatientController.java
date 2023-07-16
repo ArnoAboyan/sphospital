@@ -5,6 +5,7 @@ import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.PatientRepository;
 import com.hospital.sphospital.service.*;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
@@ -64,6 +65,7 @@ public class PatientController {
     }
 
     @GetMapping
+    @RolesAllowed("ADMIN")
     private String getAllPatients(Model model, @PageableDefault(size = 5) Pageable pageable) throws CommandException {
         System.out.println(pageable);
 

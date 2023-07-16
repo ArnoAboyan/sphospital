@@ -3,9 +3,10 @@ package com.hospital.sphospital.controller;
 
 import com.hospital.sphospital.entity.Appointment;
 import com.hospital.sphospital.entity.Doctor;
+import com.hospital.sphospital.entity.Role;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.service.*;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 
 
 @Controller
@@ -37,6 +38,7 @@ public class AdminController {
     @Autowired
     DoctorByIdService doctorByIdService;
 
+
     @Autowired
     PatientListByDoctorForAdminService patientListByDoctorForAdminService;
 
@@ -51,8 +53,27 @@ public class AdminController {
         return "redirect:/doctors";
     }
 
+    @GetMapping("/addnewdoctor")
+    private String addNewDoctorGet(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bindingResult", bindingResult);
+            return "error";
+        }
+        addDoctorService.addNewDoctor(doctor);
+        return "redirect:/doctors";
+    }
+
+//    @GetMapping("/test")
+//@RolesAllowed("ADMIN")
+//    private String test() {
+//
+//        return "testTemplate";
+//    }
+
+
 
     @GetMapping()
+//    @RolesAllowed("ADMIN")
     private String getAllDoctors(Model model, @PageableDefault(size = 5)  Pageable pageable) throws CommandException {
 
         System.out.println(pageable);
@@ -89,6 +110,7 @@ public class AdminController {
         updateDoctorService.updateDoctor(doctor);
         return "redirect:/doctors?page=" + (pageNumber);
     }
+
 
     @GetMapping("/patientsByDoctorID")
     public String findPatientsByDoctorId(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult,

@@ -41,6 +41,7 @@ public class AdminPageService {
             throw new CommandException("Size is incorrect");
         }
 
+        System.out.println(doctors);
         return doctors;
     }
 
