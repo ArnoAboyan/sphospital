@@ -2,13 +2,11 @@ package com.hospital.sphospital.controller;
 
 
 import com.hospital.sphospital.entity.Appointment;
-import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.AppointmentRepository;
 import com.hospital.sphospital.repositorie.HospitalCardRepository;
 import com.hospital.sphospital.service.AddAppointmentService;
 import com.hospital.sphospital.service.AppointmentListService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -54,7 +52,7 @@ public class AppointmentController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error";
+            return "error!!!";
         }
 
         System.out.println(appointment);

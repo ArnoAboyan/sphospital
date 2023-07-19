@@ -22,17 +22,25 @@
         <div class="col-sm-12">
             <div class="row justify-content-center">
                 <div class="col-6">
-                    <form th:action="@{/auth/authenticate}" th:method="GET">
+
+                    <div th:if="${param.error}">
+                        Invalid username and password.
+                    </div>
+                    <div th:if="${param.logout}">
+                        You have been logged out.
+                    </div>
+
+                    <form method="post" th:action="@{/auth/process-login}">
                         <div class="mb-3">
-                            <input type="login" name="login" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required minlength="4" maxlength="18">
+                            <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required minlength="4" maxlength="18">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" id="exampleInputPassword1"  name="password" required minlength="4" maxlength="18">
                         </div>
                         <button type="submit" class="btn btn-outline-primary" th:text="#{admin_jsp.Login}"></button>
-<%--                        <a class="btn btn-info justify-content-center" href="registration.jsp">registration</a>--%>
+                        <a class="btn btn-info justify-content-center" href="registration.jsp">registration</a>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-<%--                            <a class="btn btn-secondary btn-sm" href="index.jsp" role="button">IndexPage____</a>--%>
+                           <a class="btn btn-secondary btn-sm" href="index.jsp" role="button">IndexPage____</a>
                         </div>
                     </form>
                 </div>

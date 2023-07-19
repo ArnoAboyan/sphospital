@@ -7,7 +7,7 @@ import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.AppointmentRepository;
 import com.hospital.sphospital.service.*;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

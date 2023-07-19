@@ -34,7 +34,7 @@
 //            return "controller?command=hospitalcardbypatientid";
 //        }else
 //            logger.error("Check role " + role + " FALSE");
-//            return "error.html";
+//            return "error!!!.html";
 //
 //    }
 //

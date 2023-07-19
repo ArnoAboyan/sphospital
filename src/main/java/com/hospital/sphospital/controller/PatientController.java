@@ -3,12 +3,9 @@ package com.hospital.sphospital.controller;
 import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
-import com.hospital.sphospital.repositorie.PatientRepository;
 import com.hospital.sphospital.service.*;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -44,7 +41,7 @@ public class PatientController {
     private String addNewPatient(@Valid @ModelAttribute("patients") Patient patient, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error";
+            return "error!!!";
         }
         addPatientService.addNewPatient(patient);
         return "redirect:/patients";
@@ -65,7 +62,6 @@ public class PatientController {
     }
 
     @GetMapping
-    @RolesAllowed("ADMIN")
     private String getAllPatients(Model model, @PageableDefault(size = 5) Pageable pageable) throws CommandException {
         System.out.println(pageable);
 
@@ -92,7 +88,7 @@ public class PatientController {
 
     if (bindingResult.hasErrors()) {
         model.addAttribute("bindingResult", bindingResult);
-        return "error";
+        return "error!!!";
     }
     updatePatientService.updatePatient(patient);
     return "redirect:/patients?page=" + (pageNumber);

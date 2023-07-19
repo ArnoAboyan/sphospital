@@ -1,15 +1,15 @@
 package com.hospital.sphospital.entity;
 
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class Doctor implements UserDetails {
 
     @Column(name = "doctor_surname")
     @NonNull
-   @Size (min = 3, max = 20, message = "The entered surname size is not correct")
+    @Size (min = 3, max = 20, message = "The entered surname size is not correct")
     @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "The entered surname is not correct")
     private String doctorSurname;
 
