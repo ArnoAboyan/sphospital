@@ -13,7 +13,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" >Hospital</a>
       <div class="container-fluid">
-        <a th:href="@{/doctors/patientsByDoctorID(doctorId=${hospitalcard.doctor.doctorId})}" style="background-color: #e3f2fd;" class="btn btn-outline-secondary" role="button" th:text="#{admin_jsp.hospitalcardBack}"></a>
+        <a th:href="@{/doctors/patientsByDoctorID(doctorId=${actualdoctor.doctorId})}" style="background-color: #e3f2fd;" class="btn btn-outline-secondary" role="button" th:text="#{admin_jsp.hospitalcardBack}"></a>
         </button>
       </div>
       </div>
@@ -31,7 +31,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 fs-2 text-center "  th:text="#{admin_jsp.hospitalcardHOSPITALCARD}"></div>
-      <div class="col-4 fs-4" th:utext="#{admin_jsp.Doctor} + ':' + '<br>' +  ${hospitalcard.doctor.doctorName} + ' ' +  ${hospitalcard.doctor.doctorSurname} + ' <br> ' + ' | ' +  ${hospitalcard.doctor.category}">
+      <div class="col-4 fs-4" th:utext="#{admin_jsp.Doctor} + ':' + '<br>' +  ${actualdoctor.doctorName} + ' ' +  ${actualdoctor.doctorSurname} + ' <br> ' + ' | ' +  ${actualdoctor.category}">
       </div>
       <div class="col-4 fs-4"></div>
       <div class="col-4 fs-4" th:utext="#{admin_jsp.Patient} + ':' + '<br>' + ${hospitalcard.patient.patientName} + ' ' + ${hospitalcard.patient.patientSurname} + ' ' + '<br>' + ${hospitalcard.patient.patientDateOfBirth} + ' ' + '<br>' + ${hospitalcard.patient.patientPhone}"></div>
@@ -88,7 +88,7 @@
           </button>
           <form  th:action="@{/hospitalcard/discharged}" th:method="GET">
             <input type="hidden" name="patientId" th:value="${hospitalcard.patient.patientId}">
-            <input type="hidden" name="doctorId" th:value="${hospitalcard.doctor.doctorId}">
+            <input type="hidden" name="doctorId" th:value="${actualdoctor.doctorId}">
             <button type="submit" class="btn btn-warning" th:text="#{admin.jsp.Discarge}"></button>
           </form>
         </div>
@@ -129,7 +129,7 @@
   </div>
 
 </div>
-<!-- Modal -->
+<!--EDIT Modal -->
 <div class="modal fade" id="changecardModal" tabindex="-1" aria-labelledby="changecardModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -143,6 +143,7 @@
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
             <input type="hidden" name="hospitalcardid" th:value="${hospitalcard.hospitalCardId}">
+            <input type="hidden" name="doctorId" th:value="${actualdoctor.doctorId}">
             <h2 class="accordion-header" id="headingOne" >
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" th:text="#{admin_jsp.hospitalcardPROCEDURE}">
               </button>

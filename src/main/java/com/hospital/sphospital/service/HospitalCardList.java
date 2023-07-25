@@ -31,7 +31,7 @@
 //
 //        if (!role.equalsIgnoreCase("nurse")) {
 //            logger.error("Check role " + role + " FALSE");
-//            return "error!!!.html";
+//            return "error.html";
 //        }
 //
 //        logger.info("Check role " + role + " CORRECT");

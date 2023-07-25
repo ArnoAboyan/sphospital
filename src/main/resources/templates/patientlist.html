@@ -280,7 +280,7 @@
                                                         aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form   th:action="@{/appointments/newappointment/{pagenumber}(pagenumber=${patients.getNumber()})}" th:method="POST">
+                                                <form   th:action="@{/appointments/newappointment/{pagenumber}(pagenumber=${patients.getNumber()})}" th:method="GET">
                                                     <div>
                                                         <input type="hidden" name="patientId"
                                                               th:value="${patient.patientId}">

@@ -6,13 +6,15 @@ import com.hospital.sphospital.entity.HospitalCard;
 import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.AppointmentRepository;
+import com.hospital.sphospital.repositorie.HospitalCardRepository;
 import com.hospital.sphospital.service.*;
-import javax.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,42 +25,42 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/hospitalcard")
 public class HospitalCardController {
 
-    @Autowired
-    HospitalCardService hospitalCardService;
 
-    @Autowired
-    UpdateHospitalCadrService updateHospitalCadrService;
-
-    @Autowired
-    AppointmentListService appointmentListService;
-    @Autowired
-    DeletePatientService deletePatientService;
-
-    @Autowired
-    DoctorByIdService doctorByIdService;
-
-    @Autowired
-    PatientListByDoctorForAdminService patientListByDoctorForAdminService;
+    private final HospitalCardService hospitalCardService;
 
 
-    @GetMapping
-    private String getHospitalCard(@RequestParam("patientId") int doctorId,
-                                   @RequestParam("doctorId") int patientId,
+    private final HospitalCardRepository hospitalCardRepository;
+
+    private final AppointmentListService appointmentListService;
+
+    private final DeletePatientService deletePatientService;
+
+
+    private final DoctorByIdService doctorByIdService;
+
+
+    private final PatientListByDoctorForAdminService patientListByDoctorForAdminService;
+
+
+    @PostMapping
+    private String getHospitalCard(@RequestParam("patientId") int patientId,
+                                   @RequestParam("doctorId") int doctorId,
                                    Model model) {
 
-
         model.addAttribute("visitcard", appointmentListService.visitList(patientId, doctorId));
-        model.addAttribute("hospitalcard",
-//                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId.getDoctorId(), patientId.getPatientId()));
-                hospitalCardService.getHospitalCardByDoctorIdAndPatientId(doctorId, patientId));
+        model.addAttribute("hospitalcard", hospitalCardService.getHospitalCardByPatientId(patientId, doctorId));
+        model.addAttribute("actualdoctor", doctorByIdService.findByDoctorIdInteger(doctorId));
 
 
         return "hospitalcard";
     }
 
 
+
+
     @PostMapping("/edit")
     public String updateHospitalCard(@RequestParam("hospitalcardid") int hospitalCardId,
+                                     @RequestParam("doctorId") int doctorId,
                                      @RequestParam("procedures") String procedures,
                                      @RequestParam("medications") String medications,
                                      @RequestParam("operations") String operations,
@@ -66,25 +68,23 @@ public class HospitalCardController {
                                      Model model) throws CommandException {
 
 
-        System.out.println(hospitalCardId);
+        hospitalCardService.updateHospitalCard(hospitalCardId, procedures, medications, operations, diagnosis);
 
-        updateHospitalCadrService.updateHospitalCard(hospitalCardId, procedures, medications, operations, diagnosis);
-
-        model.addAttribute("hospitalcard", updateHospitalCadrService.actualHospitalCard());
+        model.addAttribute("hospitalcard", hospitalCardService.actualHospitalCard());
+        model.addAttribute("actualdoctor", doctorByIdService.findByDoctorIdInteger(doctorId));
         return "hospitalcard";
     }
 
-    @GetMapping("/discharged")
+    @PostMapping("/discharged")
     public String dischargedPatient(@RequestParam("patientId") int patientId,
                                      @RequestParam("doctorId") int doctorId,
                                     @PageableDefault(size = 5) Pageable pageable,
                                      Model model) throws CommandException {
 
 
-        System.out.println(patientId);
-        System.out.println(doctorId);
 
-        deletePatientService.patientDelete(patientId);
+
+            hospitalCardService.dischargedByPatientId(patientId);
 
        var doctor= doctorByIdService.findByDoctorIdInteger(doctorId);
         model.addAttribute("doctorById", doctor);
@@ -92,21 +92,11 @@ public class HospitalCardController {
         return "patientlistbydoctoradmin";
     }
 
-//    @GetMapping("/edit")
-////    public String updateHospitalCard(@Valid @ModelAttribute("hospitalcard") HospitalCard hospitalCard,
-////                                      BindingResult bindingResult,
-////                                      Model model) throws CommandException {
-////        if (bindingResult.hasErrors()) {
-////            model.addAttribute("bindingResult", bindingResult);
-////            return "error";
-////        }
-////
-////        System.out.println(hospitalCard);
-////
-////        updateHospitalCadrService.updateHospitalCard(hospitalCard);
-////
-////        return "redirect:/hospitalcard";
-////    }
+//    @GetMapping("/deleteall")
+//public String deleteAll(){
+//        hospitalCardRepository.deleteAll();
+//        return "redirect:/doctors";
+//    }
 
 
 }

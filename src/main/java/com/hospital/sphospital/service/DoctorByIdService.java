@@ -2,6 +2,7 @@ package com.hospital.sphospital.service;
 
 import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.repositorie.DoctorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DoctorByIdService {
 
 
-    @Autowired
-    private DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepository;
 
     @Transactional
     public Doctor findByDoctorId(Doctor innerdoctor) {

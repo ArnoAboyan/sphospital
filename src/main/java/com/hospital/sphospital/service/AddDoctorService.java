@@ -10,7 +10,10 @@ import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.DoctorRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,56 +22,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class AddDoctorService {
-    @Autowired
-    private DoctorRepository doctorRepository;
 
-    private final PasswordEncoder passwordEncoder;
-//    private final JwtService jwtService;
+    private final DoctorRepository doctorRepository;
 
-//   @Transactional
-//    public void addNewDoctor( Doctor doctor) {
-//        System.out.println(doctor);
-//        doctorRepository.save(doctor);
-//    }
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+@Transactional
     public Boolean addNewDoctor(Doctor doctor) {
-//        Doctor doctor = Doctor
-//                .builder()
-//                .doctorName(request.getDoctorName())
-//                .doctorSurname(request.getDoctorSurname())
-//                .login(request.getLogin())
-//                .password(passwordEncoder.encode(request.getPassword()))
-//                .role(Role.DOCTOR)
-//                .category(request.getCategory())
-//                .build();
 
-        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-        System.out.println(doctor);
+        doctor.setPassword(bCryptPasswordEncoder.encode(doctor.getPassword()));
+
+
+        log.info("New doctor has been successfully added");
 
         doctorRepository.save(doctor);
         return true;
     }
 
 
-//    public AuthenticationResponse addNewDoctor(Doctor doctor) {
-////        Doctor doctor = Doctor
-////                .builder()
-////                .doctorName(request.getDoctorName())
-////                .doctorSurname(request.getDoctorSurname())
-////                .login(request.getLogin())
-////                .password(passwordEncoder.encode(request.getPassword()))
-////                .role(Role.DOCTOR)
-////                .category(request.getCategory())
-////                .build();
-//
-//        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-//        System.out.println(doctor);
-//
-//        doctorRepository.save(doctor);
-//        var jwtToken = jwtService.generateToken(doctor);
-//        return AuthenticationResponse.builder().token(jwtToken).build();
-//    }
 
 
 }

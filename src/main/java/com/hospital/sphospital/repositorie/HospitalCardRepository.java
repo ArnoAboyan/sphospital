@@ -8,9 +8,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HospitalCardRepository extends JpaRepository<HospitalCard, Integer> {
 
-   HospitalCard findByDoctorDoctorIdAndPatientPatientId (int doctor, int patient);
+//   HospitalCard findByDoctorDoctorIdAndPatientPatientId (int doctor, int patient);
+//
+//   HospitalCard deleteByDoctorDoctorIdAndPatientPatientId (int doctorId, int patientId);
 
-    boolean existsByDoctorAndPatient(Doctor doctor, Patient patient);
+
+    HospitalCard findByPatientPatientId (int patient);
+
+    HospitalCard deleteByPatientPatientId (int patientId);
+
+    boolean existsByPatient(Patient patient);
 
 
 

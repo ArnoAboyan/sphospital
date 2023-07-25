@@ -5,12 +5,12 @@ import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.service.*;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -19,9 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -39,15 +36,14 @@ public class AdminController {
     private final DoctorByIdService doctorByIdService;
 
 
-    @Autowired
-    PatientListByDoctorForAdminService patientListByDoctorForAdminService;
+    private final PatientListByDoctorForAdminService patientListByDoctorForAdminService;
 
 
     @PostMapping("/addnewdoctor")
     private String addNewDoctor(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error!!!";
+            return "error";
         }
         addDoctorService.addNewDoctor(doctor);
         return "redirect:/doctors";
@@ -57,7 +53,7 @@ public class AdminController {
     private String addNewDoctorGet(@Valid @ModelAttribute("doctors") Doctor doctor, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error!!!";
+            return "error";
         }
         addDoctorService.addNewDoctor(doctor);
         return "redirect:/doctors";
@@ -76,7 +72,7 @@ public class AdminController {
     @GetMapping()
     private String getAllDoctors(Model model, @PageableDefault(size = 5)  Pageable pageable) throws CommandException {
 
-        System.out.println(pageable);
+
 
         Sort sort = pageable.getSort();
 
@@ -84,7 +80,7 @@ public class AdminController {
         for (Sort.Order order : orders) {
             String sortName = order.getProperty();
             model.addAttribute("sortName", sortName);
-            System.out.println(sortName);
+
         }
 
         model.addAttribute("doctors", adminPageService.getAllDoctors(pageable));
@@ -106,7 +102,7 @@ public class AdminController {
                           @PathVariable("pagenumber") int pageNumber) throws CommandException {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error!!!";
+            return "error";
         }
         updateDoctorService.updateDoctor(doctor);
         return "redirect:/doctors?page=" + (pageNumber);
@@ -119,7 +115,7 @@ public class AdminController {
                                           Model model){
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error!!!";
+            return "error";
         }
 
         Sort sort = pageable.getSort();
@@ -128,46 +124,44 @@ public class AdminController {
         for (Sort.Order order : orders) {
             String sortName = order.getProperty();
             model.addAttribute("sortName", sortName);
-            System.out.println(sortName);
         }
 
         var doctorById = doctorByIdService.findByDoctorId(doctor);
-        System.out.println(doctorById);
         model.addAttribute("doctorById", doctorById);
         model.addAttribute("patientsByDoctorId",  patientListByDoctorForAdminService.findByDoctorId(doctor, pageable));
         return "patientlistbydoctoradmin";
     }
 
 
-    @GetMapping("/session")
-
-    public String printActiveUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) principal;
-            System.out.println("Active User: " + userDetails.getUsername());
-            System.out.println("Authorities: " + userDetails.getAuthorities());
-            System.out.println(userDetails.isAccountNonLocked());
-            System.out.println(userDetails.isEnabled());
-            System.out.println(((UserDetails) principal).getAuthorities());
-        } else {
-            System.out.println("No active user");
-        }
-        return "testTemplate";
-    }
-
-    @GetMapping("/sessions")
-    public String printActiveUsers() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) principal;
-            System.out.println("Active User: " + userDetails.getUsername());
-            System.out.println("Authorities: " + userDetails.getAuthorities());
-            System.out.println(((UserDetails) principal).getAuthorities());
-        } else {
-            System.out.println("No active user");
-        }
-        return "testTemplate";
-    }
+//    @GetMapping("/session")
+//
+//    public String printActiveUser() {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (principal instanceof UserDetails) {
+//            UserDetails userDetails = (UserDetails) principal;
+//            System.out.println("Active User: " + userDetails.getUsername());
+//            System.out.println("Authorities: " + userDetails.getAuthorities());
+//            System.out.println(userDetails.isAccountNonLocked());
+//            System.out.println(userDetails.isEnabled());
+//            System.out.println(((UserDetails) principal).getAuthorities());
+//        } else {
+//            System.out.println("No active user");
+//        }
+//        return "testTemplate";
+//    }
+//
+//    @GetMapping("/sessions")
+//    public String printActiveUsers() {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (principal instanceof UserDetails) {
+//            UserDetails userDetails = (UserDetails) principal;
+//            System.out.println("Active User: " + userDetails.getUsername());
+//            System.out.println("Authorities: " + userDetails.getAuthorities());
+//            System.out.println(((UserDetails) principal).getAuthorities());
+//        } else {
+//            System.out.println("No active user");
+//        }
+//        return "testTemplate";
+//    }
 
 }

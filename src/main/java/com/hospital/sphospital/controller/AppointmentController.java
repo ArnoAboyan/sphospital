@@ -7,7 +7,9 @@ import com.hospital.sphospital.repositorie.AppointmentRepository;
 import com.hospital.sphospital.repositorie.HospitalCardRepository;
 import com.hospital.sphospital.service.AddAppointmentService;
 import com.hospital.sphospital.service.AppointmentListService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,36 +17,28 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
 @Controller
 @RequestMapping("/appointments")
 @RequiredArgsConstructor
+@Log
 public class AppointmentController {
-    @Autowired
-    AppointmentRepository appointmentRepository;
 
-    @Autowired
-    AddAppointmentService addappointmentService;
+    private final AppointmentRepository appointmentRepository;
 
-    @Autowired
-    AppointmentListService appointmentListService;
+    private final AddAppointmentService addappointmentService;
 
-    @Autowired
-    HospitalCardRepository hospitalCardRepository;
+    private final AppointmentListService appointmentListService;
+
+    private final HospitalCardRepository hospitalCardRepository;
 
 
-
-
-
-
-
-
-    @PostMapping("/newappointment/{pagenumber}")
+    @GetMapping("/newappointment/{pagenumber}")
     public String addAppointment(@Valid @ModelAttribute("appointments") Appointment appointment,
                                  @PathVariable("pagenumber") int pageNumber,
                                  BindingResult bindingResult,
@@ -52,10 +46,9 @@ public class AppointmentController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error!!!";
+            return "error";
         }
 
-        System.out.println(appointment);
         addappointmentService.addNewAppointment(appointment);
 
         return "redirect:/patients?page=" + (pageNumber);
@@ -63,9 +56,9 @@ public class AppointmentController {
 
 
     @GetMapping
-    private String getAllAppointments (Model model, @PageableDefault(size = 5) Pageable pageable){
+    private String getAllAppointments(Model model, @PageableDefault(size = 5) Pageable pageable) {
 
-        System.out.println(pageable);
+;
 
 
         Sort sort = pageable.getSort();
@@ -74,7 +67,6 @@ public class AppointmentController {
         for (Sort.Order order : orders) {
             String sortName = order.getProperty();
             model.addAttribute("sortName", sortName);
-            System.out.println(sortName);
         }
 
         try {
@@ -85,6 +77,10 @@ public class AppointmentController {
 
         return "appointmentlist";
     }
-
+//@GetMapping("/deleteAll")
+//    public String deleteAll(){
+//        appointmentRepository.deleteAll();
+//        return "redirect:/doctors";
+//    }
 
 }

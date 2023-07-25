@@ -8,6 +8,9 @@ import com.hospital.sphospital.repositorie.AppointmentRepository;
 import com.hospital.sphospital.repositorie.DoctorRepository;
 import com.hospital.sphospital.repositorie.HospitalCardRepository;
 import com.hospital.sphospital.repositorie.PatientRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableMBeanExport;
@@ -18,50 +21,38 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class AddAppointmentService {
+@Log4j2
+@RequiredArgsConstructor
 
-    @Autowired
-    AppointmentRepository appointmentRepository;
+ public class AddAppointmentService {
 
-    @Autowired
-    DoctorRepository doctorRepository;
-    @Autowired
-    PatientRepository patientRepository;
-
-    @Autowired
-    AddHospitalCardService addHospitalCardService;
+    private final AppointmentRepository appointmentRepository;
 
 
+    private final DoctorRepository doctorRepository;
 
-    @Autowired
-    HospitalCardRepository hospitalCardRepository;
+    private final PatientRepository patientRepository;
+
+
+
+
+
+
+
+    private final HospitalCardRepository hospitalCardRepository;
 
     @Transactional
     public Boolean addNewAppointment(Appointment appointment) {
-        System.out.println(appointment.toString());
-        appointmentRepository.save(appointment);
-        addHospitalCardService.crateHospitalCard(appointment);
 
+        appointmentRepository.save(appointment);
+        log.info("Create new appointment -> " + appointment.getDoctorId() + " / "
+                + appointment.getPatientId() + " / " + appointment.getAppointmentData());
+//        addHospitalCardService.crateHospitalCard(appointment);
+//        log.info("Hospital card has been successfully created");
         return true;
     }
 
 
-//    @Transactional
-//    public Boolean addNewAppointment(Integer doctorId, Integer patientId, LocalDateTime appointmentData){
-
-//        Appointment appointment = new Appointment();
-//
-//       Doctor doctor = doctorRepository.findById(doctorId);
-//        Optional<Patient> patient = patientRepository.findById(patientId);
-//
-//        appointment.setDoctor(doctor);
-//
-//        System.out.println(appointment);
-//        appointmentRepository.save(appointment);
-
-//        return true;
-
-//    }
 
 }
 

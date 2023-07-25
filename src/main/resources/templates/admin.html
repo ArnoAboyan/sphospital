@@ -264,12 +264,14 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="changeInputPassword1" th:text="#{admin_jsp.doctorWritepassword}"></label>
-                                                        <input type="text" class="form-control" id="changeInputPassword1"
+                                                        <input type="password" class="form-control" id="changeInputPassword1"
                                                                name="password" required
                                                                minlength="4" maxlength="18"
                                                                pattern="[a-zA-Z0-9]{3,20}"
                                                                title="min 3 - max 20 english letters and numbers"
+                                                               th:placeholder="${doctor.password} != null ? 'Write new password if you need' : ''"
                                                                th:value="${doctor.password}">
+
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="changeselectrole" th:text="#{admin_jsp.doctorSelectrole}"></label>
@@ -432,13 +434,13 @@
         background: #e3f2fd;
         width: 100%;
         left: 0;">
-<!--    <div class="container text-center text-md-left">-->
-<!--        <div class="d-flex">-->
-<!--            <div class="p-2 flex-grow-1">Make by Arno</div>-->
-<!--            <div class="p-2">099 111 22 33</div>-->
-<!--            <div class="p-2"><mylib:languages></mylib:languages></div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="container text-center text-md-left">
+        <div class="d-flex">
+            <div class="p-2 flex-grow-1">Make by Arno</div>
+            <div class="p-2">099 111 22 33</div>
+            <div class="p-2"><mylib:languages></mylib:languages></div>
+        </div>
+    </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"

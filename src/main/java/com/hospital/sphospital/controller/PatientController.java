@@ -4,7 +4,8 @@ import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.service.*;
-import javax.validation.Valid;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class PatientController {
     private String addNewPatient(@Valid @ModelAttribute("patients") Patient patient, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            return "error!!!";
+            return "error";
         }
         addPatientService.addNewPatient(patient);
         return "redirect:/patients";
@@ -50,7 +51,6 @@ public class PatientController {
     @GetMapping("/deletepatient")
     private String deletePatient(@RequestParam("patientId") int doctorId, @RequestParam("pagenumber") Integer pagenumber) {
         deletePatientService.patientDelete(doctorId);
-        System.out.println(pagenumber);
         return "redirect:/patients?page=" + (pagenumber);
     }
 
@@ -63,8 +63,6 @@ public class PatientController {
 
     @GetMapping
     private String getAllPatients(Model model, @PageableDefault(size = 5) Pageable pageable) throws CommandException {
-        System.out.println(pageable);
-
 
         Sort sort = pageable.getSort();
 
@@ -72,7 +70,6 @@ public class PatientController {
         for (Sort.Order order : orders) {
             String sortName = order.getProperty();
             model.addAttribute("sortName", sortName);
-            System.out.println(sortName);
         }
 
         model.addAttribute("patients", patientListService.getAllPatients(pageable));
@@ -88,7 +85,7 @@ public class PatientController {
 
     if (bindingResult.hasErrors()) {
         model.addAttribute("bindingResult", bindingResult);
-        return "error!!!";
+        return "error";
     }
     updatePatientService.updatePatient(patient);
     return "redirect:/patients?page=" + (pageNumber);

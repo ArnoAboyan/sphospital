@@ -1,10 +1,13 @@
 package com.hospital.sphospital.entity;
 
+//
+//import javax.persistence.*;
+//import javax.validation.constraints.Future;
+//import javax.validation.constraints.Pattern;
+//import javax.validation.constraints.Size;
 
-import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

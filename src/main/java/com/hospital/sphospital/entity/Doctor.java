@@ -1,15 +1,15 @@
 package com.hospital.sphospital.entity;
 
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,8 +48,8 @@ public class Doctor implements UserDetails {
 
     @Column(name = "password")
     @NonNull
-    @Size(min = 4, max = 20, message = "The entered password size is not correct")
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "The entered password is not correct")
+//    @Size(min = 4, max = 20, message = "The entered password size is not correct")
+//    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "The entered password is not correct")
     private String password;
 
     @Enumerated(EnumType.ORDINAL)

@@ -5,6 +5,8 @@ import com.hospital.sphospital.entity.Doctor;
 import com.hospital.sphospital.entity.Patient;
 import com.hospital.sphospital.exeption.CommandException;
 import com.hospital.sphospital.repositorie.AppointmentRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,16 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Log4j2
+@RequiredArgsConstructor
 public class AppointmentListService {
 
-    @Autowired
-    AppointmentRepository appointmentRepository;
 
-    @Autowired
-    DoctorByIdService doctorByIdService;
+    private final  AppointmentRepository appointmentRepository;
 
-    @Autowired
-    PatientByIdService patientByIdService;
+
+    private final  DoctorByIdService doctorByIdService;
+
+
+    private final  PatientByIdService patientByIdService;
 
 
     @Transactional
@@ -32,19 +36,19 @@ public class AppointmentListService {
         if (appointments.getSize() != 5) {
             throw new CommandException("Size is incorrect");
         }
+        log.info("Appointment list has been get correctly");
         return appointments;
     }
 
     @Transactional
-    public List<Appointment> visitList(int doctorId, int patientId) {
+    public List<Appointment> visitList(int patientId, int doctorId) {
 
 
         Doctor doctor = doctorByIdService.findByDoctorIdInteger(doctorId);
         Patient patient = patientByIdService.findByPatientIdInteger(patientId);
 
-
         List<Appointment> appointmentList = appointmentRepository.findByDoctorIdAndPatientId(doctor, patient);
-        System.out.println("!!!APPOINTMENT LIST => " + appointmentList);
+        log.info("Visit list has been get correctly");
         return appointmentList;
     }
 }

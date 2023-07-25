@@ -38,7 +38,7 @@
         </ul>
       </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <form action="controller" method="get">
           <input type="hidden" name="command" value="logout">
           <button type="submit" class="btn btn-outline-secondary" style="background-color: #e3f2fd;" th:text="#{admin_jsp.logout}"></button>
@@ -171,10 +171,10 @@
               <form th:action="@{/hospitalcard}" th:method="POST">
                 <input type="hidden" th:name="patientId" th:value="${patient.patientId}">
                 <input type="hidden" th:name="doctorId" th:value="${doctorById.doctorId}">
-                  <button type="submit" class="btn btn-outline-primary" th:text="#{admin_jsp.Card}"></button>
-                </form>
-              </td>
-            </tr>
+                <button type="submit" class="btn btn-outline-primary" th:text="#{admin_jsp.Card}"></button>
+              </form>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
